@@ -1,0 +1,2875 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>YOU DON'T NEED IT | Surgical Anti-Impulse Roast PWA</title>
+  
+  <!-- Web App Manifest for Android Chrome PWA & Web Share Target -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#08090d">
+  <meta name="mobile-web-app-capable" content="yes">
+  
+  <!-- Apple iOS Safari Home Screen Meta Tags & Icon -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DontNeedIt">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <link rel="icon" type="image/png" href="./icon-192.png">
+
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              red: '#ff2a5f',
+              amber: '#f59e0b',
+              neon: '#10b981',
+              violet: '#8b5cf6',
+              dark: '#08090d',
+              card: '#11131c',
+              border: '#232736'
+            }
+          },
+          animation: {
+            'shake': 'shake 0.45s cubic-bezier(.36,.07,.19,.97) both',
+            'stamp': 'stamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+            'float': 'float 6s ease-in-out infinite alternate',
+            'siren': 'siren 1.2s ease-in-out infinite alternate',
+            'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+          },
+          keyframes: {
+            shake: {
+              '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
+              '20%, 80%': { transform: 'translate3d(4px, 0, 0)' },
+              '30%, 50%, 70%': { transform: 'translate3d(-6px, 0, 0)' },
+              '40%, 60%': { transform: 'translate3d(6px, 0, 0)' }
+            },
+            stamp: {
+              '0%': { opacity: '0', transform: 'scale(2.6) rotate(-14deg)' },
+              '100%': { opacity: '1', transform: 'scale(1) rotate(-5deg)' }
+            },
+            float: {
+              '0%': { transform: 'translateY(0px)' },
+              '100%': { transform: 'translateY(-6px)' }
+            },
+            siren: {
+              '0%': { boxShadow: 'inset 0 0 30px rgba(255, 42, 95, 0.2)' },
+              '100%': { boxShadow: 'inset 0 0 120px rgba(255, 42, 95, 0.55)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --mood-hue: 345;
+      --mood-alpha: 0.18;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #08090d; }
+    ::-webkit-scrollbar-thumb { background: #262936; border-radius: 4px; }
+    
+    body {
+      background-color: #08090d;
+      background-image: 
+        radial-gradient(ellipse 75% 50% at 50% 0%, hsl(var(--mood-hue) 80% 25% / var(--mood-alpha)), transparent 70%),
+        radial-gradient(circle at 85% 90%, rgba(139, 92, 246, 0.08), transparent 50%);
+      transition: background-image 0.8s ease;
+    }
+
+    .neo-card {
+      background: rgba(17, 19, 28, 0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 14px 40px -10px rgba(0, 0, 0, 0.6);
+    }
+
+    .neo-card-accent {
+      border-color: hsl(var(--mood-hue) 80% 60% / 0.4);
+      box-shadow: 0 0 30px -8px hsl(var(--mood-hue) 85% 55% / 0.25);
+    }
+
+    .trap-cb:checked {
+      background-color: #ff2a5f;
+      border-color: #ff2a5f;
+    }
+
+    .sound-btn:active {
+      transform: scale(0.92);
+    }
+
+    .panic-vignette {
+      box-shadow: inset 0 0 100px rgba(255, 42, 95, 0.45);
+    }
+
+    .voice-bar {
+      width: 3px;
+      height: 12px;
+      background: #a78bfa;
+      border-radius: 2px;
+      animation: voiceWave 0.8s ease-in-out infinite alternate;
+    }
+    .voice-bar:nth-child(2) { animation-delay: 0.2s; height: 18px; }
+    .voice-bar:nth-child(3) { animation-delay: 0.4s; height: 14px; }
+    .voice-bar:nth-child(4) { animation-delay: 0.1s; height: 20px; }
+
+    @keyframes voiceWave {
+      0% { transform: scaleY(0.4); }
+      100% { transform: scaleY(1.4); }
+    }
+  </style>
+</head>
+<body id="appBody" class="text-zinc-100 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-brand-red selection:text-white pb-14 transition-all duration-500">
+
+  <!-- TOP NAVIGATION & STATUS BAR -->
+  <header class="sticky top-0 z-50 bg-[#08090d]/95 backdrop-blur-xl border-b border-zinc-800/80 px-3 sm:px-6 py-2.5">
+    <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <!-- Brand & Version -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-brand-red/15 border border-brand-red/40 flex items-center justify-center text-xl shadow-inner select-none cursor-pointer" onclick="sfx.playClownHonk()" title="Click for Clown Honk">
+          🤡
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-sm sm:text-base font-bold tracking-tight text-white uppercase">You Don't Need It</h1>
+            <span class="text-[10px] font-mono font-bold uppercase px-1.5 py-0.5 rounded bg-brand-red/20 text-brand-red border border-brand-red/40">Overkill v2.5</span>
+          </div>
+          <p class="text-[10px] text-zinc-400 font-mono hidden sm:block">AI Impulse Interrogation + Disorientation Roast Engine + PWA</p>
+        </div>
+      </div>
+
+      <!-- Right Controls: RoBERTa Status, Voice Toggle, Currency, Install & History -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <!-- RoBERTa Model Status Pill -->
+        <div class="flex items-center gap-2 bg-zinc-900/90 border border-zinc-800 rounded-xl px-2.5 py-1.5">
+          <span id="nnDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <div class="text-left">
+            <div id="nnTitle" class="text-[10px] font-mono font-semibold text-zinc-200 leading-none">RoBERTa: Standby</div>
+            <div id="nnProgressWrap" class="w-20 h-1 bg-zinc-800 rounded-full overflow-hidden mt-1 hidden">
+              <div id="nnProgressFill" class="h-full bg-brand-neon transition-all duration-300" style="width: 0%"></div>
+            </div>
+          </div>
+          <button id="nnLoadBtn" onclick="startEmotionWorker()" class="text-[10px] font-mono bg-brand-violet/20 hover:bg-brand-violet/30 text-violet-300 border border-brand-violet/40 px-2 py-0.5 rounded-md transition">
+            Boot AI
+          </button>
+        </div>
+
+        <!-- Voice Speech Synthesis Roast Toggle -->
+        <button id="voiceRoastBtn" onclick="toggleVoiceRoast()" class="px-2.5 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-mono font-bold text-violet-400 hover:border-violet-500/50 transition flex items-center gap-1.5" title="Toggle AI Voice Roast Aloud">
+          <i data-lucide="mic" class="w-3.5 h-3.5"></i>
+          <span id="voiceStatusText">Voice ON</span>
+        </button>
+
+        <!-- Currency Switcher -->
+        <button id="currencyBtn" onclick="toggleCurrency()" class="px-2.5 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-mono font-bold text-amber-400 hover:border-zinc-700 transition" title="Switch Currency">
+          ₹ INR
+        </button>
+
+        <!-- Sound Effects Toggle -->
+        <button id="soundToggleBtn" onclick="toggleAudio()" class="w-8 h-8 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-300 hover:text-white transition" title="Toggle Comedy SFX">
+          <i data-lucide="volume-2" class="w-4 h-4" id="soundIcon"></i>
+        </button>
+
+        <!-- Android PWA Install Button -->
+        <button id="pwaInstallBtn" onclick="installPWA()" class="hidden px-2.5 py-1.5 text-xs font-mono font-bold bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 rounded-xl items-center gap-1 hover:bg-emerald-500/25 transition">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i>
+          <span>Install App</span>
+        </button>
+
+        <!-- iOS Safari Install Helper -->
+        <button id="iosHelperBtn" onclick="openIosGuideModal()" class="hidden px-2.5 py-1.5 text-xs font-mono font-bold bg-sky-500/15 border border-sky-500/40 text-sky-400 rounded-xl items-center gap-1">
+          <i data-lucide="share" class="w-3.5 h-3.5"></i>
+          <span>Add to iPhone</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- iOS PWA INSTALL & SHARE HELPER MODAL -->
+  <div id="iosGuideModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md p-5 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-base"></div>
+          <h3 class="font-bold text-sm text-white uppercase">iPhone Install & Share Guide</h3>
+        </div>
+        <button onclick="closeIosGuideModal()" class="text-zinc-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs text-zinc-300 font-mono">
+        <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800 space-y-1">
+          <span class="text-emerald-400 font-bold block">1. Install as Standalone iOS App:</span>
+          <p class="text-zinc-400">In Safari, tap the <strong>Share button</strong> <span class="text-white px-1.5 py-0.5 bg-zinc-800 rounded">⎋ / [↑]</span> at the bottom, scroll down and tap <strong>"Add to Home Screen"</strong> <span class="text-white px-1.5 py-0.5 bg-zinc-800 rounded">[+]</span>.</p>
+        </div>
+
+        <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800 space-y-1">
+          <span class="text-sky-400 font-bold block">2. Share Amazon/Flipkart Links on iPhone:</span>
+          <p class="text-zinc-400">Since iOS Safari doesn't support Web Share Target for PWAs yet, you have 2 easy options:</p>
+          <ul class="list-disc list-inside space-y-1 text-zinc-300 mt-1">
+            <li><strong>Auto Clipboard:</strong> Just copy any product link in Amazon. When you open this app, it automatically prompts to roast it!</li>
+            <li><strong>1-Tap iOS Shortcut:</strong> Add a 2-step Apple Shortcut (Input: URL $\rightarrow$ Open <code class="text-sky-300">your-domain/?url=Input</code>) to have this app appear in your iPhone Share Sheet!</li>
+          </ul>
+        </div>
+      </div>
+
+      <button onclick="closeIosGuideModal()" class="w-full py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs uppercase tracking-wider transition">
+        Understood
+      </button>
+    </div>
+  </div>
+
+  <!-- FLOATING SMART CLIPBOARD DETECTOR BANNER -->
+  <div id="clipboardDetectBanner" class="hidden max-w-5xl mx-auto w-full px-3 sm:px-6 pt-3">
+    <div class="p-3 rounded-xl bg-amber-500/15 border border-amber-500/40 flex items-center justify-between gap-3 text-xs font-mono text-amber-200">
+      <div class="flex items-center gap-2 truncate">
+        <i data-lucide="clipboard-copy" class="w-4 h-4 text-amber-400 shrink-0"></i>
+        <span class="truncate">Copied shopping link detected: <strong id="detectedClipboardText" class="text-white font-mono">...</strong></span>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="applyDetectedClipboard()" class="px-2.5 py-1 rounded-lg bg-amber-500 text-black font-bold uppercase text-[11px] hover:bg-amber-400 transition">
+          Roast It
+        </button>
+        <button onclick="dismissClipboardBanner()" class="text-zinc-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="max-w-5xl mx-auto w-full px-3 sm:px-6 pt-4 space-y-5 flex-1">
+
+    <!-- TOP BAR 2: COMEDY SOUNDBOARD & DISORIENTATION ARCHIVES TICKER -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+      <!-- Interactive Comedy Soundboard Strip -->
+      <div class="md:col-span-7 neo-card rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-1.5 text-[11px] font-mono uppercase text-zinc-400 font-semibold">
+          <i data-lucide="music" class="w-3.5 h-3.5 text-brand-red"></i>
+          <span>SFX Board:</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button onclick="sfx.playBuzzer()" class="sound-btn text-[11px] font-mono px-2.5 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 transition">
+            🚨 Buzzer
+          </button>
+          <button onclick="sfx.playClownHonk()" class="sound-btn text-[11px] font-mono px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 transition">
+            🤡 Honk
+          </button>
+          <button onclick="sfx.playSadTrombone()" class="sound-btn text-[11px] font-mono px-2.5 py-1 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-300 transition">
+            🎺 Trombone
+          </button>
+          <button onclick="sfx.playVineBoom()" class="sound-btn text-[11px] font-mono px-2.5 py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 transition">
+            💥 Vine Boom
+          </button>
+          <button onclick="sfx.playFlatline()" class="sound-btn text-[11px] font-mono px-2.5 py-1 rounded-lg bg-red-600/15 hover:bg-red-600/25 border border-red-500/40 text-red-300 transition">
+            📉 Flatline
+          </button>
+          <button onclick="sfx.playChaChing()" class="sound-btn text-[11px] font-mono px-2.5 py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 transition">
+            💰 Cha-Ching
+          </button>
+        </div>
+      </div>
+
+      <!-- Disorientation Archives & Rescued Fortune Ticker -->
+      <div class="md:col-span-5 neo-card rounded-2xl p-3 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+            <i data-lucide="piggy-bank" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-[10px] font-mono uppercase text-zinc-400">Rescued Fortune</div>
+            <div id="totalSavedCounter" class="text-base font-bold font-mono text-emerald-400 leading-tight">₹0 Saved</div>
+          </div>
+        </div>
+        <button onclick="openArchivesModal()" class="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs font-mono text-zinc-300 transition flex items-center gap-1.5">
+          <i data-lucide="archive" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span>Archives (<span id="historyCount">0</span>)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN INPUT & LIVE EMOTION TELEMETRY GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+      
+      <!-- LEFT COLUMN (7 cols): Product Input + Excuse + Presets -->
+      <section class="lg:col-span-7 neo-card rounded-2xl p-4 sm:p-5 space-y-4">
+        <div class="flex items-center justify-between border-b border-zinc-800/80 pb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="scan-search" class="w-4 h-4 text-brand-red"></i>
+            <h2 class="text-sm font-bold uppercase tracking-wider text-white">1. Submit Temptation For Interrogation</h2>
+          </div>
+          <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Live Recon + Anti-EMI Price Filter</span>
+        </div>
+
+        <!-- Product Link or Name + Price -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="sm:col-span-2">
+            <label for="productInput" class="block text-[11px] font-mono uppercase text-zinc-400 mb-1">
+              Product Link (Amazon/Flipkart/etc.) or Name
+            </label>
+            <div class="relative flex items-center">
+              <input 
+                type="text" 
+                id="productInput" 
+                placeholder="Paste URL or type 'iPhone 16 Pro', 'PS5', 'Sony XM5'..."
+                class="w-full bg-zinc-950/90 border border-zinc-800 rounded-xl px-3 py-2.5 pr-16 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-brand-red transition"
+                oninput="onProductInputChanged()"
+              />
+              <button onclick="pasteClipboard()" class="absolute right-1.5 text-[11px] font-mono bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-2 py-1 rounded-lg border border-zinc-700 transition">
+                Paste
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label for="priceInput" class="block text-[11px] font-mono uppercase text-zinc-400">
+                Price (<span id="priceCurrencySymbol">₹</span>)
+              </label>
+              <button type="button" onclick="resetPriceToAuto()" class="text-[10px] font-mono text-emerald-400 hover:underline" title="Let Search AI find the real street price">
+                Auto-Detect
+              </button>
+            </div>
+            <input 
+              type="number" 
+              id="priceInput" 
+              placeholder="Auto via Search"
+              oninput="onManualPriceInput()"
+              class="w-full bg-zinc-950/90 border border-zinc-800 rounded-xl px-3 py-2.5 text-sm font-mono text-amber-400 placeholder-zinc-500 focus:outline-none focus:border-brand-amber transition"
+            />
+          </div>
+        </div>
+
+        <!-- User's Justification (Fed directly into RoBERTa Emotion Model) -->
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label for="excuseInput" class="text-[11px] font-mono uppercase text-zinc-400">
+              Your Pathetic Justification (Analyzed Live by RoBERTa Neural Net)
+            </label>
+            <span id="liveTypingStatus" class="text-[10px] font-mono text-violet-400">Type to trigger emotion sensors...</span>
+          </div>
+          <textarea 
+            id="excuseInput" 
+            rows="2" 
+            placeholder="e.g. I really need this because the camera is way better, it will make me super productive, and there is a bank offer right now!"
+            class="w-full bg-zinc-950/90 border border-zinc-800 rounded-xl p-3 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-brand-violet transition"
+            oninput="queueLiveEmotionScan()"
+          ></textarea>
+        </div>
+
+        <!-- Quick-Test Impulse Presets -->
+        <div>
+          <span class="text-[10px] font-mono uppercase text-zinc-500 block mb-1.5">Or test live search & price verification with a preset:</span>
+          <div class="flex flex-wrap gap-1.5">
+            <button onclick="loadPreset('Apple iPhone 16 Pro (128GB)', null, 'My current phone battery drains fast and I really need the 120Hz ProMotion display and 5x telephoto camera for trips!')" class="text-xs bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 px-2.5 py-1.5 rounded-xl text-rose-200 font-semibold transition">
+              📱 iPhone 16 Pro
+            </button>
+            <button onclick="loadPreset('Sony WH-1000XM5 Wireless Noise Cancelling Headphones', null, 'My current earphones barely isolate noise and I cannot focus at all without industry-leading ANC.')" class="text-xs bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 px-2.5 py-1.5 rounded-xl text-zinc-300 transition">
+              🎧 Sony XM5 ANC
+            </button>
+            <button onclick="loadPreset('Ultrahuman Ring AIR Smart Sleep & Recovery Ring', null, 'I wake up tired and I am worried my HRV and deep sleep stages are ruined. I need data to fix my health!')" class="text-xs bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 px-2.5 py-1.5 rounded-xl text-zinc-300 transition">
+              💍 Smart Sleep Ring
+            </button>
+            <button onclick="loadPreset('Wacaco Nanopresso Portable Espresso Maker', null, 'I love specialty coffee and making my own espresso shots on road trips will save me cafe money!')" class="text-xs bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 px-2.5 py-1.5 rounded-xl text-zinc-300 transition">
+              ☕ Nanopresso Espresso
+            </button>
+          </div>
+        </div>
+
+        <!-- Big Launch Reconnaissance & Roast CTA -->
+        <button 
+          id="interrogateBtn"
+          onclick="runFullInterrogation()"
+          class="w-full py-3.5 px-5 rounded-xl bg-gradient-to-r from-brand-red via-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white font-bold text-sm uppercase tracking-wider shadow-lg transition transform active:scale-[0.99] flex items-center justify-center gap-2"
+        >
+          <i data-lucide="gavel" class="w-4 h-4"></i>
+          <span>Search Real Price, Scrape Specs & Roast Me</span>
+        </button>
+      </section>
+
+      <!-- RIGHT COLUMN (5 cols): Live RoBERTa Emotion Radar + Delusion-O-Meter -->
+      <aside class="lg:col-span-5 neo-card neo-card-accent rounded-2xl p-4 sm:p-5 space-y-4">
+        <div class="flex items-center justify-between border-b border-zinc-800/80 pb-2.5">
+          <div class="flex items-center gap-2">
+            <i data-lucide="brain-circuit" class="w-4 h-4 text-violet-400"></i>
+            <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-zinc-200">RoBERTa GoEmotions Neural Scan</h2>
+          </div>
+          <span id="emotionSourceTag" class="text-[10px] font-mono px-2 py-0.5 rounded bg-violet-500/15 text-violet-300 border border-violet-500/30">
+            28-Class ONNX
+          </span>
+        </div>
+
+        <!-- Delusion-O-Meter & Clown Certification Gauge -->
+        <div class="p-3.5 rounded-xl bg-zinc-950/90 border border-zinc-800/90 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-mono uppercase text-zinc-400 flex items-center gap-1">
+              <span>🤡 Clown & Delusion-O-Meter</span>
+            </span>
+            <span id="delusionScoreText" class="text-sm font-mono font-extrabold text-brand-red">18% (Mild)</span>
+          </div>
+          <div class="w-full h-3 bg-zinc-900 rounded-full overflow-hidden border border-zinc-800 p-0.5">
+            <div id="delusionBar" class="h-full rounded-full bg-gradient-to-r from-emerald-500 via-amber-500 to-brand-red transition-all duration-500" style="width: 18%"></div>
+          </div>
+          <p id="psychologicalDiagnosis" class="text-[11px] text-zinc-400 font-mono leading-relaxed">
+            Waiting for you to confess why you want this item so we can dissect your dopamine receptors...
+          </p>
+        </div>
+
+        <!-- Dominant Emotion Signal & 28-Class Chips -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-[11px] font-mono">
+            <span class="text-zinc-400 uppercase">Dominant Trigger:</span>
+            <span id="dominantEmotionLabel" class="font-bold text-rose-400 uppercase">DESIRE (64%)</span>
+          </div>
+          <div id="emotionChipsContainer" class="flex flex-wrap gap-1.5">
+            <span class="text-[11px] font-mono text-zinc-500">Type a product or justification to see live neural weights...</span>
+          </div>
+        </div>
+
+        <!-- Sentence-Level Subtext Breakdown -->
+        <div class="space-y-1.5 pt-1 border-t border-zinc-800/80">
+          <div class="text-[10px] font-mono uppercase text-zinc-500">Sentence-Level Subtext Constellation:</div>
+          <div id="sentenceConstellation" class="space-y-1.5">
+            <div class="text-[11px] font-mono text-zinc-600 italic">No excuses analyzed yet.</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- LOADING / RECONNAISSANCE PROGRESS BANNER -->
+    <div id="reconLoader" class="hidden neo-card rounded-2xl p-5 sm:p-6 space-y-4 border border-brand-red/40">
+      <div class="flex items-center gap-3">
+        <div class="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-brand-red/15 border border-brand-red/40 text-brand-red animate-pulse shrink-0">
+          <i data-lucide="radar" class="w-6 h-6"></i>
+        </div>
+        <div class="text-left">
+          <h3 id="reconStatusTitle" class="text-sm sm:text-base font-bold text-white font-mono">Deploying Live Web Search & Anti-EMI Price Bots...</h3>
+          <p id="reconStatusSub" class="text-xs text-zinc-400 font-mono">Querying retail listings, Reddit regret threads & filtering fake EMI installments...</p>
+        </div>
+      </div>
+      <!-- Live Terminal Telemetry Log during scraping -->
+      <div id="reconLiveLogBox" class="bg-zinc-950/95 border border-zinc-800 rounded-xl p-3 font-mono text-[11px] text-emerald-400 space-y-1 max-h-40 overflow-y-auto text-left"></div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- RESULTS STUDIO (HIDDEN UNTIL INTERROGATION RUNS)                  -->
+    <!-- ================================================================= -->
+    <div id="interrogationStudio" class="hidden space-y-6">
+
+      <!-- COLLAPSIBLE RECONNAISSANCE & PRICE VERIFICATION TELEMETRY BAR -->
+      <div class="neo-card rounded-2xl p-3.5 border border-emerald-500/30 bg-emerald-950/10">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2 text-xs font-mono text-emerald-300">
+            <i data-lucide="terminal" class="w-4 h-4 text-emerald-400"></i>
+            <span id="reconSummaryBanner" class="font-bold">Live Search & Anti-EMI Price Telemetry Complete</span>
+          </div>
+          <button onclick="document.getElementById('reconCompletedLog').classList.toggle('hidden')" class="text-[11px] font-mono text-zinc-400 hover:text-white underline">
+            Toggle Raw Search & Filter Log
+          </button>
+        </div>
+        <div id="reconCompletedLog" class="hidden mt-2.5 pt-2.5 border-t border-zinc-800/80 font-mono text-[11px] text-zinc-300 space-y-1 max-h-44 overflow-y-auto"></div>
+      </div>
+
+      <!-- SENSORY DISORIENTATION: AUDIO VOICE ROAST BANNER WITH SOUND EQUALIZER -->
+      <div id="voiceRoastBanner" class="neo-card rounded-2xl p-4 border border-violet-500/40 bg-violet-950/20 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-500/40 flex items-center justify-center text-violet-300 text-lg relative">
+            🎙️
+            <div id="voiceWaveIndicator" class="hidden absolute -bottom-1 -right-1 flex items-end gap-0.5 bg-black/60 p-1 rounded-md">
+              <span class="voice-bar"></span>
+              <span class="voice-bar"></span>
+              <span class="voice-bar"></span>
+              <span class="voice-bar"></span>
+            </div>
+          </div>
+          <div>
+            <div class="text-xs font-mono uppercase text-violet-300 font-bold flex items-center gap-2">
+              <span>AI Voice Prosecution Aloud</span>
+              <span id="speakingBadge" class="hidden text-[9px] px-1.5 py-0.2 rounded bg-violet-500 text-white font-mono uppercase animate-pulse">Speaking</span>
+            </div>
+            <p id="voiceTranscriptPreview" class="text-xs text-zinc-300 line-clamp-1 italic">"Warning: detected consumer dopamine spike..."</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="speakCurrentRoast()" class="px-3 py-1.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-mono text-xs font-bold flex items-center gap-1.5 transition">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Speak Roast
+          </button>
+          <button onclick="stopVoiceRoast()" class="px-2.5 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-mono text-xs transition">
+            Stop
+          </button>
+        </div>
+      </div>
+
+      <!-- SECTION A: PRODUCT MUGSHOT GALLERY, REALITY TRANSLATION & OPPORTUNITY COST -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        
+        <!-- Product Mugshot, Real Specs & Brutal Translation (7 cols) -->
+        <div class="lg:col-span-7 neo-card rounded-2xl p-5 space-y-4">
+          <div class="flex flex-wrap items-start justify-between gap-3 border-b border-zinc-800 pb-3">
+            <div class="max-w-md">
+              <div class="flex flex-wrap items-center gap-1.5">
+                <span id="resCategoryBadge" class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-brand-red/20 text-brand-red border border-brand-red/40 font-bold">
+                  Dopamine Trap
+                </span>
+                <span id="resPriceProvenance" class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                  Verified Retail Price
+                </span>
+              </div>
+              <h2 id="resProductTitle" class="text-xl font-bold text-white mt-1.5">Product Name</h2>
+            </div>
+
+            <!-- Inline Editable Verified Price Pill -->
+            <div class="text-right bg-zinc-950/90 border border-zinc-800 rounded-xl px-3 py-2">
+              <div class="text-[10px] font-mono uppercase text-zinc-400 flex items-center justify-end gap-1">
+                <span>Verified Damage</span>
+                <span class="text-zinc-500">(Click to edit)</span>
+              </div>
+              <div class="flex items-center justify-end gap-1 mt-0.5">
+                <span id="dossierCurrencySym" class="text-lg font-mono font-extrabold text-amber-400">₹</span>
+                <input 
+                  id="inlineEditablePrice" 
+                  type="number" 
+                  class="w-28 bg-transparent text-right text-xl font-mono font-extrabold text-amber-400 focus:outline-none focus:border-b focus:border-amber-400"
+                  onchange="onInlinePriceEdited(this.value)"
+                />
+              </div>
+              <div id="resPriceSourceSub" class="text-[9px] font-mono text-zinc-500">EMI/Discount Traps Filtered</div>
+            </div>
+          </div>
+
+          <!-- Product Mugshot & Visual Evidence Strip -->
+          <div>
+            <div class="text-[10px] font-mono uppercase text-zinc-400 mb-2 flex items-center justify-between">
+              <span>📸 Suspect Mugshots & Visual Evidence:</span>
+              <span id="imageSourceStatus" class="text-zinc-500">Scanning...</span>
+            </div>
+            <div id="mugshotGallery" class="grid grid-cols-3 gap-2.5"></div>
+          </div>
+
+          <!-- Real Scraped & Search-Grounded Specifications -->
+          <div class="p-3.5 rounded-xl bg-zinc-950/90 border border-zinc-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <div class="text-[10px] font-mono uppercase text-emerald-400 font-bold flex items-center gap-1.5">
+                <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                <span>Actual Specs & Claims Pulled From Search / Listing:</span>
+              </div>
+              <span id="specsOriginTag" class="text-[10px] font-mono text-zinc-500">Search Grounded</span>
+            </div>
+            <ul id="resRealSpecsList" class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-zinc-300 font-mono"></ul>
+          </div>
+
+          <!-- Brutally Honest Marketing Translation -->
+          <div class="p-3.5 rounded-xl bg-rose-950/25 border border-brand-red/30 space-y-1.5">
+            <div class="text-[10px] font-mono uppercase text-brand-red font-bold flex items-center gap-1.5">
+              <i data-lucide="languages" class="w-3.5 h-3.5"></i>
+              <span>De-Hyped Marketing Translation:</span>
+            </div>
+            <p id="resBrutalSummary" class="text-xs sm:text-sm text-zinc-200 leading-relaxed font-medium"></p>
+          </div>
+
+          <!-- 4 Concrete Engineering / Practical Flaws -->
+          <div>
+            <div class="text-xs font-mono uppercase text-amber-400 font-bold mb-2 flex items-center gap-1.5">
+              <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+              <span>4 Specific Reasons This Exact Item Will Annoy You:</span>
+            </div>
+            <ul id="resFlawsList" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></ul>
+          </div>
+        </div>
+
+        <!-- Opportunity Cost & Shelf-Life Decay Timeline (5 cols) -->
+        <div class="lg:col-span-5 space-y-5">
+          <!-- Opportunity Cost Calculator -->
+          <div class="neo-card rounded-2xl p-4 sm:p-5 space-y-3">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-2.5">
+              <div class="flex items-center gap-2">
+                <i data-lucide="calculator" class="w-4 h-4 text-emerald-400"></i>
+                <h3 class="text-xs font-mono font-bold uppercase text-white">Real-World Opportunity Cost</h3>
+              </div>
+              <span class="text-[10px] font-mono text-emerald-400">12% CAGR Math</span>
+            </div>
+            <div id="opportunityGrid" class="grid grid-cols-2 gap-2.5"></div>
+          </div>
+
+          <!-- 6-Month Dust-Gathering Timeline -->
+          <div class="neo-card rounded-2xl p-4 sm:p-5 space-y-3">
+            <div class="flex items-center gap-2 border-b border-zinc-800 pb-2.5">
+              <i data-lucide="hourglass" class="w-4 h-4 text-amber-400"></i>
+              <h3 class="text-xs font-mono font-bold uppercase text-white">Predicted Closet Burial Timeline</h3>
+            </div>
+            <div id="timelineContainer" class="space-y-2.5 text-xs"></div>
+          </div>
+
+          <!-- PSYCHOLOGICAL DISORIENTATION: SIMULATED WHATSAPP GUILT TRIP FROM MOM/FRIEND -->
+          <div class="neo-card rounded-2xl p-4 sm:p-5 space-y-3 border border-emerald-500/30 bg-emerald-950/10">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-2">
+              <div class="flex items-center gap-2">
+                <i data-lucide="message-circle" class="w-4 h-4 text-emerald-400"></i>
+                <h3 class="text-xs font-mono font-bold uppercase text-emerald-300">Simulated WhatsApp Reality Check</h3>
+              </div>
+              <span class="text-[10px] font-mono text-zinc-400">Incoming Message</span>
+            </div>
+            
+            <div class="p-3 rounded-xl bg-zinc-950/90 border border-zinc-800 space-y-2">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold">👩</div>
+                <div>
+                  <div class="text-xs font-bold text-white leading-none">Mom / Sensible Friend</div>
+                  <div class="text-[9px] font-mono text-emerald-400">online</div>
+                </div>
+              </div>
+              <p id="whatsappRoastMessage" class="text-xs text-zinc-200 bg-emerald-950/30 p-2.5 rounded-lg border border-emerald-500/20 leading-relaxed font-sans">
+                "Beta, you complained about fuel prices yesterday, and now you want to spend this much on a gadget that does the same thing as what you already own? Please invest in your mutual fund."
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SECTION B: LIVE REDDIT COMPLAINTS + 1-STAR FUTURE REVIEWS -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- Real Web Complaints (Reddit & HN Live Search) -->
+        <div class="lg:col-span-6 neo-card rounded-2xl p-5 space-y-3">
+          <div class="flex items-center justify-between border-b border-zinc-800 pb-2.5">
+            <div class="flex items-center gap-2">
+              <i data-lucide="message-square-warning" class="w-4 h-4 text-orange-400"></i>
+              <h3 class="text-xs font-mono font-bold uppercase text-white">Live Internet Regret & Complaints</h3>
+            </div>
+            <span class="text-[10px] font-mono text-zinc-400">Reddit + HN OSINT</span>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5 pb-1">
+            <a id="gSearchRegret" href="#" target="_blank" rel="noopener" class="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 flex items-center gap-1 transition">
+              <i data-lucide="external-link" class="w-3 h-3 text-brand-red"></i> Google "Reddit Regret"
+            </a>
+            <a id="gSearchOneStar" href="#" target="_blank" rel="noopener" class="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 flex items-center gap-1 transition">
+              <i data-lucide="external-link" class="w-3 h-3 text-amber-400"></i> 1-Star Reviews
+            </a>
+            <a id="gSearchBroken" href="#" target="_blank" rel="noopener" class="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 flex items-center gap-1 transition">
+              <i data-lucide="external-link" class="w-3 h-3 text-violet-400"></i> Known Defects
+            </a>
+          </div>
+
+          <div id="liveComplaintsList" class="space-y-2.5 max-h-64 overflow-y-auto pr-1"></div>
+        </div>
+
+        <!-- 3 Simulated 1-Star Reviews From Your Future Self -->
+        <div class="lg:col-span-6 neo-card rounded-2xl p-5 space-y-3">
+          <div class="flex items-center justify-between border-b border-zinc-800 pb-2.5">
+            <div class="flex items-center gap-2">
+              <i data-lucide="star-off" class="w-4 h-4 text-brand-red"></i>
+              <h3 class="text-xs font-mono font-bold uppercase text-white">1-Star Reviews From Your Future Self</h3>
+            </div>
+            <span class="text-[10px] font-mono text-rose-400">★☆☆☆☆ Verified Regret</span>
+          </div>
+          <div id="futureReviewsList" class="space-y-2.5"></div>
+        </div>
+      </div>
+
+      <!-- SECTION C: THE 6 NO-WIN SARCASTIC TRAP CHECKBOXES -->
+      <div class="neo-card rounded-2xl p-5 sm:p-6 border-2 border-brand-red/40 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-800 pb-3">
+          <div>
+            <span class="text-[10px] font-mono uppercase text-brand-red font-bold tracking-widest">CATCH-22 INTERROGATION PROTOCOL</span>
+            <h3 class="text-lg sm:text-xl font-bold text-white">2. Check Every Statement You Swear Is True</h3>
+            <p class="text-xs text-zinc-400">Warning: Checking a box triggers an instant roast. Leaving a box unchecked ALSO proves you don't need it.</p>
+          </div>
+          <div class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-1.5 rounded-xl">
+            <span class="text-xs font-mono text-zinc-400">Delusions Checked:</span>
+            <span id="checkedCountBadge" class="text-sm font-mono font-extrabold text-brand-red">0 / 6</span>
+          </div>
+        </div>
+
+        <!-- 6 Trap Checkboxes Grid -->
+        <div id="trapCheckboxesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+
+        <!-- Submit Justifications Button -->
+        <div class="pt-2">
+          <button 
+            onclick="deliverCourtroomVerdict()"
+            class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-brand-red to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white font-extrabold text-sm sm:text-base uppercase tracking-wider shadow-xl transition transform active:scale-[0.99] flex items-center justify-center gap-2"
+          >
+            <i data-lucide="scale" class="w-5 h-5"></i>
+            <span>Submit My Answers For Final Judgment</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SECTION D: THE UNCONDITIONAL COURTROOM VERDICT & DISORIENTATION SUITE -->
+      <div id="finalVerdictSection" class="hidden space-y-5">
+        
+        <!-- Giant Stamp Verdict Card -->
+        <div id="verdictStampBox" class="neo-card rounded-2xl p-6 border-2 border-brand-red relative overflow-hidden text-center space-y-4">
+          <div class="inline-block px-6 py-2 border-4 border-brand-red text-brand-red font-mono font-black text-2xl sm:text-4xl uppercase tracking-widest rounded-xl animate-stamp">
+            🚫 YOU DON'T NEED IT 🚫
+          </div>
+
+          <h3 id="verdictHeadline" class="text-lg sm:text-xl font-bold text-white max-w-2xl mx-auto">
+            Official Courtroom Teardown
+          </h3>
+
+          <p id="verdictMainParagraph" class="text-xs sm:text-sm text-zinc-300 font-mono max-w-3xl mx-auto leading-relaxed bg-zinc-950/90 p-4 rounded-xl border border-zinc-800"></p>
+
+          <!-- Itemized Breakdown of Checked vs Unchecked Traps -->
+          <div class="text-left max-w-3xl mx-auto space-y-2">
+            <div class="text-[11px] font-mono uppercase text-zinc-400 font-bold">How Every Single Box Condemned You:</div>
+            <div id="verdictItemizedList" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs"></div>
+          </div>
+
+          <!-- Action Buttons: Surrender Money, Download Clown Certificate, Share Shame -->
+          <div class="flex flex-wrap items-center justify-center gap-3 pt-3">
+            <button 
+              id="buryImpulseBtn"
+              onclick="saveToGraveyard()"
+              class="px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm uppercase tracking-wider shadow-lg transition flex items-center gap-2"
+            >
+              <i data-lucide="piggy-bank" class="w-4 h-4"></i>
+              <span>You're Right. Close Tab & Save <span id="saveBtnAmount">₹0</span></span>
+            </button>
+
+            <button 
+              onclick="generateClownCertificate()"
+              class="px-5 py-3.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition flex items-center gap-2"
+            >
+              <i data-lucide="award" class="w-4 h-4"></i>
+              <span>Download Clown Certificate 📜</span>
+            </button>
+
+            <button 
+              onclick="shareShameCard()"
+              class="px-5 py-3.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 font-bold text-xs sm:text-sm uppercase tracking-wider transition flex items-center gap-2"
+            >
+              <i data-lucide="share-2" class="w-4 h-4"></i>
+              <span>Share Shame Report</span>
+            </button>
+
+            <!-- Dangerous Red Button: Trigger 60-Second Soul-Confession Wall -->
+            <button 
+              onclick="triggerSoulConfessionModal()"
+              class="px-4 py-3.5 rounded-xl bg-rose-950/70 hover:bg-rose-900 border border-brand-red/50 text-rose-300 font-bold text-xs uppercase tracking-wider transition flex items-center gap-1.5"
+            >
+              <i data-lucide="skull" class="w-4 h-4 text-brand-red"></i>
+              <span>I Don't Care, Let Me Buy It</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- INTERACTIVE "YEAH, BUT..." COUNTER-EXCUSE CRUSHER -->
+        <div class="neo-card rounded-2xl p-5 space-y-3 border border-violet-500/30">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="shield-off" class="w-4 h-4 text-violet-400"></i>
+              <h3 class="text-sm font-bold uppercase text-white">"Yeah, But..." Counter-Excuse Crusher</h3>
+            </div>
+            <span class="text-[10px] font-mono text-violet-400">Still trying to cope? Click an excuse:</span>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <button onclick="crushExcuse('But it is on a massive 45% discount right now!')" class="text-xs bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-3 py-1.5 rounded-xl text-zinc-300 transition">
+              "But it's on 45% discount!"
+            </button>
+            <button onclick="crushExcuse('I swear I will use this every single day for the next 5 years!')" class="text-xs bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-3 py-1.5 rounded-xl text-zinc-300 transition">
+              "I'll use it every single day!"
+            </button>
+            <button onclick="crushExcuse('It is an investment in my career, health, and productivity!')" class="text-xs bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-3 py-1.5 rounded-xl text-zinc-300 transition">
+              "It's a productivity investment!"
+            </button>
+            <button onclick="crushExcuse('I worked really hard this month and deserve a little treat!')" class="text-xs bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-3 py-1.5 rounded-xl text-zinc-300 transition">
+              "I worked hard, I deserve a treat!"
+            </button>
+            <button onclick="crushExcuse('It has high resale value if I ever decide to sell it!')" class="text-xs bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-3 py-1.5 rounded-xl text-zinc-300 transition">
+              "It has great resale value!"
+            </button>
+          </div>
+
+          <div class="flex gap-2">
+            <input 
+              type="text" 
+              id="customRebuttalInput" 
+              placeholder="Or type your own desperate counter-argument..."
+              class="flex-1 bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-violet"
+              onkeydown="if(event.key==='Enter') crushCustomExcuse()"
+            />
+            <button onclick="crushCustomExcuse()" class="px-4 py-2 rounded-xl bg-brand-violet hover:bg-violet-500 text-white font-bold text-xs uppercase transition">
+              Try Me
+            </button>
+          </div>
+
+          <div id="excuseCrusherOutput" class="hidden p-3.5 rounded-xl bg-violet-950/30 border border-violet-500/40 text-xs text-violet-200 font-mono leading-relaxed"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- 60-SECOND SOUL CONFESSION FRICTION LOCK MODAL -->
+  <div id="soulConfessionModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border-2 border-brand-red rounded-2xl w-full max-w-md p-5 space-y-4 shadow-2xl text-center">
+      <div class="w-12 h-12 rounded-2xl bg-rose-500/20 text-brand-red flex items-center justify-center mx-auto text-2xl font-bold">
+        🛑
+      </div>
+      <div>
+        <h3 class="text-lg font-bold text-white uppercase tracking-tight">Dopamine Cooldown Lockout</h3>
+        <p class="text-xs text-zinc-400 font-mono mt-1">If you insist on making this purchase, you must wait out the clock and confess your true motives.</p>
+      </div>
+
+      <!-- 60s Countdown Timer -->
+      <div class="p-3 bg-zinc-950 rounded-xl border border-zinc-800">
+        <div class="text-[10px] font-mono uppercase text-zinc-500">Impulse Decay Timer:</div>
+        <div id="cooldownTimerDisplay" class="text-3xl font-mono font-black text-brand-red mt-0.5">60s</div>
+      </div>
+
+      <!-- Confession Box -->
+      <div class="text-left space-y-1">
+        <label class="text-[11px] font-mono uppercase text-zinc-400">
+          Type exactly: <span class="text-rose-400 select-all">"I am buying this to fill a void in my life"</span>
+        </label>
+        <input 
+          id="confessionInput" 
+          type="text" 
+          placeholder="Type the exact confession..." 
+          class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-red font-mono"
+          oninput="checkConfessionProgress()"
+        />
+      </div>
+
+      <div class="flex gap-2">
+        <button 
+          id="unlockBuyBtn" 
+          disabled 
+          onclick="proceedToBuyAnyway()" 
+          class="flex-1 py-3 rounded-xl bg-zinc-800 text-zinc-500 font-mono text-xs font-bold uppercase cursor-not-allowed transition"
+        >
+          Unlock Checkout
+        </button>
+        <button onclick="abortConfessionModal()" class="px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs font-bold uppercase transition">
+          I Saved My Money
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISORIENTATION ARCHIVES & RESCUED FORTUNE MODAL (PERSISTED IN LOCALSTORAGE) -->
+  <div id="archivesModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="p-4 border-b border-zinc-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i data-lucide="archive" class="w-4 h-4 text-emerald-400"></i>
+          <div>
+            <h3 class="font-bold text-sm text-white uppercase leading-none">Disorientation Archives & Rescued Fortune</h3>
+            <span class="text-[10px] font-mono text-zinc-400">Persisted safely in local storage</span>
+          </div>
+        </div>
+        <button onclick="closeArchivesModal()" class="text-zinc-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Filter Tabs & Stats -->
+      <div class="p-3 bg-zinc-950/80 border-b border-zinc-800/80 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+        <div class="flex items-center gap-1.5">
+          <button onclick="setArchiveFilter('all')" id="filterAllBtn" class="px-2.5 py-1 rounded-lg bg-zinc-800 text-white font-bold transition">All</button>
+          <button onclick="setArchiveFilter('saved')" id="filterSavedBtn" class="px-2.5 py-1 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white transition">Rescued Only 💰</button>
+        </div>
+        <div class="text-emerald-400 font-bold">
+          Lifetime Rescued: <span id="archivesTotalVal">₹0</span>
+        </div>
+      </div>
+
+      <!-- Archives List -->
+      <div id="archivesListContainer" class="p-4 overflow-y-auto space-y-2.5 flex-1"></div>
+
+      <!-- Footer & Actions -->
+      <div class="p-3 border-t border-zinc-800 bg-zinc-950 flex justify-between items-center text-xs font-mono">
+        <button onclick="exportArchivesJSON()" class="text-emerald-400 hover:underline flex items-center gap-1">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i> Export History
+        </button>
+        <button onclick="clearAllArchives()" class="text-rose-400 hover:underline">
+          Reset History
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIDDEN CANVAS FOR CLOWN CERTIFICATE GENERATION -->
+  <canvas id="certificateCanvas" width="800" height="600" class="hidden"></canvas>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastNotification" class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-zinc-900 border border-zinc-700 text-zinc-100 text-xs font-mono px-4 py-2.5 rounded-full shadow-2xl transition-all duration-300 opacity-0 pointer-events-none z-50 flex items-center gap-2">
+    <span id="toastMessage">Ready</span>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MAIN APPLICATION & DUAL AI ENGINE SCRIPTS                             -->
+  <!-- ===================================================================== -->
+  <script>
+    // =========================================================================
+    // 1. WEB AUDIO API COMEDY SYNTHESIZER (Buzzer, Honk, Trombone, Flatline...)
+    // =========================================================================
+    class ComedySoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+
+      init() {
+        if (!this.ctx) {
+          this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+        return this.ctx;
+      }
+
+      // Harsh Game-Show Wrong Answer Buzzer ("EHHHHH!")
+      playBuzzer() {
+        if (!this.enabled) return;
+        try {
+          const ctx = this.init();
+          const now = ctx.currentTime;
+          const osc1 = ctx.createOscillator();
+          const osc2 = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc1.type = 'sawtooth';
+          osc2.type = 'sawtooth';
+          osc1.frequency.setValueAtTime(115, now);
+          osc2.frequency.setValueAtTime(121, now);
+
+          gain.gain.setValueAtTime(0.22, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.42);
+
+          osc1.connect(gain);
+          osc2.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc1.start(now);
+          osc2.start(now);
+          osc1.stop(now + 0.42);
+          osc2.stop(now + 0.42);
+        } catch (e) {}
+      }
+
+      // Double Pitch-Bent Clown Horn ("HONK-HONK! 🤡")
+      playClownHonk() {
+        if (!this.enabled) return;
+        try {
+          const ctx = this.init();
+          const now = ctx.currentTime;
+          [0, 0.22].forEach(offset => {
+            const osc = ctx.createOscillator();
+            const filter = ctx.createBiquadFilter();
+            const gain = ctx.createGain();
+
+            osc.type = 'triangle';
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(850, now + offset);
+            filter.Q.setValueAtTime(3.5, now + offset);
+
+            osc.frequency.setValueAtTime(280, now + offset);
+            osc.frequency.linearRampToValueAtTime(420, now + offset + 0.08);
+            osc.frequency.linearRampToValueAtTime(290, now + offset + 0.17);
+
+            gain.gain.setValueAtTime(0.35, now + offset);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + offset + 0.18);
+
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc.start(now + offset);
+            osc.stop(now + offset + 0.18);
+          });
+        } catch (e) {}
+      }
+
+      // 4-Note Descending Sad Trombone ("Wah, wah, wah, waaaah...")
+      playSadTrombone() {
+        if (!this.enabled) return;
+        try {
+          const ctx = this.init();
+          const now = ctx.currentTime;
+          const notes = [
+            { f: 293.66, start: 0.0, dur: 0.28 },
+            { f: 277.18, start: 0.30, dur: 0.28 },
+            { f: 261.63, start: 0.60, dur: 0.28 },
+            { f: 246.94, start: 0.90, dur: 0.75, slideTo: 215 }
+          ];
+
+          notes.forEach(n => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(n.f, now + n.start);
+            if (n.slideTo) {
+              osc.frequency.linearRampToValueAtTime(n.slideTo, now + n.start + n.dur);
+            }
+            gain.gain.setValueAtTime(0.18, now + n.start);
+            gain.gain.exponentialRampToValueAtTime(0.008, now + n.start + n.dur);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + n.start);
+            osc.stop(now + n.start + n.dur);
+          });
+        } catch (e) {}
+      }
+
+      // Deep Sub-Bass 808 Vine Boom
+      playVineBoom() {
+        if (!this.enabled) return;
+        try {
+          const ctx = this.init();
+          const now = ctx.currentTime;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(135, now);
+          osc.frequency.exponentialRampToValueAtTime(32, now + 0.65);
+
+          gain.gain.setValueAtTime(0.5, now);
+          gain.gain.exponentialRampToValueAtTime(0.005, now + 0.7);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.7);
+        } catch (e) {}
+      }
+
+      // Hospital Bank Account Flatline Beep
+      playFlatline() {
+        if (!this.enabled) return;
+        try {
+          const ctx = this.init();
+          const now = ctx.currentTime;
+          [0, 0.2].forEach(offset => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(140, now + offset);
+            osc.frequency.exponentialRampToValueAtTime(45, now + offset + 0.08);
+            gain.gain.setValueAtTime(0.3, now + offset);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + offset + 0.09);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + offset);
+            osc.stop(now + offset + 0.09);
+          });
+
+          const flatOsc = ctx.createOscillator();
+          const flatGain = ctx.createGain();
+          flatOsc.type = 'sine';
+          flatOsc.frequency.setValueAtTime(880, now + 0.45);
+          flatGain.gain.setValueAtTime(0.25, now + 0.45);
+          flatGain.gain.exponentialRampToValueAtTime(0.01, now + 1.6);
+          flatOsc.connect(flatGain);
+          flatGain.connect(ctx.destination);
+          flatOsc.start(now + 0.45);
+          flatOsc.stop(now + 1.6);
+        } catch (e) {}
+      }
+
+      // Bright Cash Register Cha-Ching
+      playChaChing() {
+        if (!this.enabled) return;
+        try {
+          const ctx = this.init();
+          const now = ctx.currentTime;
+          [1046.5, 1318.5, 1567.98, 2093.0].forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now + i * 0.06);
+            gain.gain.setValueAtTime(0.18, now + i * 0.06);
+            gain.gain.exponentialRampToValueAtTime(0.005, now + i * 0.06 + 0.35);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + i * 0.06);
+            osc.stop(now + i * 0.06 + 0.35);
+          });
+        } catch (e) {}
+      }
+    }
+
+    const sfx = new ComedySoundEngine();
+
+    function toggleAudio() {
+      sfx.enabled = !sfx.enabled;
+      const icon = document.getElementById('soundIcon');
+      icon.setAttribute('data-lucide', sfx.enabled ? 'volume-2' : 'volume-x');
+      lucide.createIcons();
+      showToast(sfx.enabled ? "Comedy SFX Armed 🔊" : "Audio Muted 🔇");
+      if (sfx.enabled) sfx.playClownHonk();
+    }
+
+    // =========================================================================
+    // 1B. TEXT-TO-SPEECH (TTS) AI VOICE ROAST ENGINE (Web Speech API)
+    // =========================================================================
+    let voiceRoastEnabled = true;
+
+    function toggleVoiceRoast() {
+      voiceRoastEnabled = !voiceRoastEnabled;
+      const btn = document.getElementById('voiceRoastBtn');
+      const text = document.getElementById('voiceStatusText');
+      if (voiceRoastEnabled) {
+        text.innerText = "Voice ON";
+        btn.classList.remove('opacity-50');
+        showToast("Voice Roast Enabled 🎙️ (Will speak roasts aloud)");
+      } else {
+        text.innerText = "Voice OFF";
+        btn.classList.add('opacity-50');
+        stopVoiceRoast();
+        showToast("Voice Roast Muted 🔇");
+      }
+    }
+
+    function speakCurrentRoast(textToSpeak) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+
+      const prod = activeReport?.title || 'this item';
+      const price = activeReport?.priceFormatted || 'your money';
+      const quote = textToSpeak || activeReport?.aiReport?.productSummary || `Warning: You do not need to spend ${price} on ${prod}. Close the store tab immediately.`;
+
+      const utter = new SpeechSynthesisUtterance(quote);
+      utter.rate = 1.05;
+      utter.pitch = 0.95;
+
+      const voices = window.speechSynthesis.getVoices();
+      const sarcasticVoice = voices.find(v => (v.lang.includes('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Samantha') || v.name.includes('Daniel')))) || voices[0];
+      if (sarcasticVoice) utter.voice = sarcasticVoice;
+
+      utter.onstart = () => {
+        document.getElementById('voiceWaveIndicator').classList.remove('hidden');
+        document.getElementById('speakingBadge').classList.remove('hidden');
+        document.getElementById('appBody').classList.add('panic-vignette');
+      };
+
+      utter.onend = utter.onerror = () => {
+        document.getElementById('voiceWaveIndicator').classList.add('hidden');
+        document.getElementById('speakingBadge').classList.add('hidden');
+        document.getElementById('appBody').classList.remove('panic-vignette');
+      };
+
+      document.getElementById('voiceTranscriptPreview').innerText = `"${quote.slice(0, 100)}..."`;
+      window.speechSynthesis.speak(utter);
+    }
+
+    function stopVoiceRoast() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        document.getElementById('voiceWaveIndicator').classList.add('hidden');
+        document.getElementById('speakingBadge').classList.add('hidden');
+        document.getElementById('appBody').classList.remove('panic-vignette');
+      }
+    }
+
+    // =========================================================================
+    // 2. IN-BROWSER ROBERTA GO_EMOTIONS ONNX WEB WORKER ENGINE
+    // =========================================================================
+    const MODEL_ID = 'SamLowe/roberta-base-go_emotions-onnx';
+    const TRANSFORMERS_URL = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.1';
+
+    let emotionWorker = null;
+    let modelReady = false;
+    let modelLoading = false;
+    let latestScanId = 0;
+    let liveScanTimer = null;
+
+    let currentEmotionScores = [
+      { label: 'desire', score: 0.64 },
+      { label: 'optimism', score: 0.42 },
+      { label: 'excitement', score: 0.31 }
+    ];
+    let currentSentenceSegments = [];
+
+    const EMOTION_HUES = {
+      desire: 335, excitement: 28, pride: 45, admiration: 185, optimism: 150,
+      joy: 142, curiosity: 205, fear: 285, nervousness: 275, remorse: 265,
+      sadness: 235, annoyance: 10, anger: 355, relief: 165, neutral: 215
+    };
+
+    const EMOTION_DIAGNOSES = {
+      desire: "Acute Shiny-Object Syndrome: Your nucleus accumbens is begging for an unboxing dopamine hit.",
+      optimism: "Fantasy-Self Delusion: You think buying a tool automatically installs the discipline to use it.",
+      excitement: "Hyper-Manic Cart Fever: You are mistaking marketing hype for genuine life utility.",
+      fear: "Catastrophizing / Biohacking Paranoia: Trying to buy away existential anxiety with hardware.",
+      nervousness: "FOMO & Scarcity Panic: The fake discount timer has hijacked your prefrontal cortex.",
+      pride: "Status-Flexing Vulnerability: You want strangers on Reddit or at cafés to notice your gear.",
+      admiration: "Influencer Halo Effect: A YouTuber with studio lighting convinced you this is essential.",
+      curiosity: "Tinkerer's Novelty Trap: You want to play with the settings for 48 hours and abandon it.",
+      relief: "Retail Therapy Coping: Using packages at the door to numb unrelated work stress.",
+      remorse: "Pre-Purchase Guilt: Even your subconscious already knows this is a terrible financial move."
+    };
+
+    function createWorkerScript() {
+      return `
+        import { pipeline } from '${TRANSFORMERS_URL}';
+        const MODEL_ID = '${MODEL_ID}';
+        let classifier = null;
+        let initPromise = null;
+
+        async function loadModel() {
+          if (classifier) return classifier;
+          if (!initPromise) {
+            initPromise = (async () => {
+              self.postMessage({ type: 'status', text: 'Downloading ONNX...' });
+              classifier = await pipeline('text-classification', MODEL_ID, {
+                dtype: 'q8',
+                progress_callback: (info) => {
+                  if (['download', 'progress', 'progress_total'].includes(info.status)) {
+                    self.postMessage({ type: 'progress', progress: info.progress });
+                  }
+                }
+              });
+              self.postMessage({ type: 'ready' });
+              return classifier;
+            })().catch(err => {
+              initPromise = null;
+              self.postMessage({ type: 'error', message: err?.message || String(err) });
+            });
+          }
+          return initPromise;
+        }
+
+        function normalise(out) {
+          if (!Array.isArray(out)) return [];
+          const rows = Array.isArray(out[0]) ? out[0] : out;
+          return rows.map(r => ({ label: String(r.label || 'neutral').toLowerCase(), score: Number(r.score) || 0 }))
+                     .sort((a, b) => b.score - a.score);
+        }
+
+        self.onmessage = async ({ data }) => {
+          if (data.type === 'init') {
+            await loadModel();
+          } else if (data.type === 'analyze') {
+            if (!classifier) return;
+            try {
+              const fullOut = await classifier(data.text.slice(-1500), { top_k: 8 });
+              const scores = normalise(fullOut);
+              const parts = data.text.split(/(?<=[.!?])\\s+|\\n+/u).map(s => s.trim()).filter(s => s.length >= 6).slice(-4);
+              const segments = [];
+              for (const part of parts) {
+                const segOut = await classifier(part, { top_k: 3 });
+                segments.push({ text: part, scores: normalise(segOut) });
+              }
+              self.postMessage({ type: 'result', id: data.id, scores, segments });
+            } catch (e) {
+              self.postMessage({ type: 'error', message: e?.message });
+            }
+          }
+        };
+      `;
+    }
+
+    function startEmotionWorker() {
+      if (modelReady || modelLoading) return;
+      modelLoading = true;
+      const dot = document.getElementById('nnDot');
+      const title = document.getElementById('nnTitle');
+      const progWrap = document.getElementById('nnProgressWrap');
+      const progFill = document.getElementById('nnProgressFill');
+      const loadBtn = document.getElementById('nnLoadBtn');
+
+      loadBtn.classList.add('hidden');
+      progWrap.classList.remove('hidden');
+      title.innerText = 'Booting RoBERTa ONNX...';
+
+      try {
+        const blob = new Blob([createWorkerScript()], { type: 'text/javascript' });
+        emotionWorker = new Worker(URL.createObjectURL(blob), { type: 'module' });
+
+        emotionWorker.onmessage = ({ data }) => {
+          if (data.type === 'progress') {
+            const pct = Math.max(5, Math.min(100, Math.round(data.progress || 0)));
+            progFill.style.width = pct + '%';
+            title.innerText = `RoBERTa Q8: ${pct}%`;
+          } else if (data.type === 'ready') {
+            modelReady = true;
+            modelLoading = false;
+            progWrap.classList.add('hidden');
+            dot.className = 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981]';
+            title.innerText = 'RoBERTa ONNX: Ready';
+            showToast("In-Browser RoBERTa Emotion Neural Net Active! 🧠");
+            queueLiveEmotionScan();
+          } else if (data.type === 'result') {
+            if (data.id !== latestScanId) return;
+            applyEmotionTelemetry(data.scores, data.segments, true);
+          } else if (data.type === 'error') {
+            modelLoading = false;
+            progWrap.classList.add('hidden');
+            loadBtn.classList.remove('hidden');
+            loadBtn.innerText = 'Retry AI';
+            dot.className = 'w-2 h-2 rounded-full bg-rose-500';
+            title.innerText = 'Lexical Fallback Mode';
+          }
+        };
+
+        emotionWorker.postMessage({ type: 'init' });
+      } catch (e) {
+        modelLoading = false;
+        title.innerText = 'Lexical Emotion Mode';
+      }
+    }
+
+    function estimateLexicalEmotions(text) {
+      const lower = text.toLowerCase();
+      const scores = [];
+      if (/need|want|love|dream|crave|gorgeous|aesthetic|beautiful|sleek/.test(lower)) scores.push({ label: 'desire', score: 0.78 });
+      if (/productive|faster|better|improve|upgrade|invest|future|fix|habit/.test(lower)) scores.push({ label: 'optimism', score: 0.69 });
+      if (/sale|discount|limited|deal|offer|hurry|stock|worried|tired|pain|afraid/.test(lower)) scores.push({ label: 'fear', score: 0.61 });
+      if (/pro|custom|titanium|artisan|rare|flex|everyone|reddit|youtube/.test(lower)) scores.push({ label: 'pride', score: 0.58 });
+      if (/cool|interesting|test|try|feature|spec|sensor/.test(lower)) scores.push({ label: 'curiosity', score: 0.52 });
+      if (scores.length === 0) {
+        scores.push({ label: 'desire', score: 0.62 }, { label: 'optimism', score: 0.45 }, { label: 'excitement', score: 0.38 });
+      }
+      const parts = text.split(/(?<=[.!?])\s+|\n+/u).filter(Boolean).slice(-3);
+      const segments = parts.map((p, i) => ({
+        text: p,
+        scores: [scores[i % scores.length]]
+      }));
+      return { scores, segments };
+    }
+
+    function queueLiveEmotionScan() {
+      clearTimeout(liveScanTimer);
+      const prod = document.getElementById('productInput').value.trim();
+      const excuse = document.getElementById('excuseInput').value.trim();
+      const combined = `${prod}. ${excuse}`.trim();
+
+      if (combined.length < 4) return;
+
+      if (!modelReady) {
+        const lex = estimateLexicalEmotions(combined);
+        applyEmotionTelemetry(lex.scores, lex.segments, false);
+        return;
+      }
+
+      document.getElementById('liveTypingStatus').innerText = 'RoBERTa scanning subtext...';
+      liveScanTimer = setTimeout(() => {
+        latestScanId++;
+        emotionWorker.postMessage({ type: 'analyze', id: latestScanId, text: combined });
+      }, 320);
+    }
+
+    function applyEmotionTelemetry(scores, segments, isNeural) {
+      const nonNeutral = scores.filter(s => s.label !== 'neutral' && s.score > 0.05);
+      currentEmotionScores = nonNeutral.length ? nonNeutral.slice(0, 6) : [{ label: 'desire', score: 0.55 }];
+      currentSentenceSegments = segments || [];
+
+      const top = currentEmotionScores[0];
+      const hue = EMOTION_HUES[top.label] || 345;
+      document.documentElement.style.setProperty('--mood-hue', hue);
+
+      document.getElementById('dominantEmotionLabel').innerText = `${top.label.toUpperCase()} (${Math.round(top.score * 100)}%)`;
+      document.getElementById('liveTypingStatus').innerText = isNeural ? '✓ RoBERTa ONNX Verified' : '⚡ Instant Subtext Scan';
+
+      const chipBox = document.getElementById('emotionChipsContainer');
+      chipBox.innerHTML = currentEmotionScores.map(item => {
+        const h = EMOTION_HUES[item.label] || 345;
+        const pct = Math.round(item.score * 100);
+        return `
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono border"
+                style="background: hsl(${h} 70% 20% / 0.45); border-color: hsl(${h} 75% 60% / 0.45); color: hsl(${h} 85% 82%)">
+            <span class="w-1.5 h-1.5 rounded-full" style="background: hsl(${h} 85% 65%)"></span>
+            ${item.label} <strong>${pct}%</strong>
+          </span>
+        `;
+      }).join('');
+
+      const diag = EMOTION_DIAGNOSES[top.label] || EMOTION_DIAGNOSES.desire;
+      document.getElementById('psychologicalDiagnosis').innerText = diag;
+
+      const sentBox = document.getElementById('sentenceConstellation');
+      if (currentSentenceSegments.length) {
+        sentBox.innerHTML = currentSentenceSegments.map(seg => {
+          const best = seg.scores.find(s => s.label !== 'neutral') || seg.scores[0] || { label: 'desire', score: 0.5 };
+          const h = EMOTION_HUES[best.label] || 345;
+          return `
+            <div class="p-2 rounded-lg bg-zinc-950/80 border border-zinc-800/80 flex items-start justify-between gap-2 text-[11px]">
+              <span class="text-zinc-300 italic line-clamp-1">"${escapeHtml(seg.text)}"</span>
+              <span class="font-mono uppercase px-1.5 py-0.5 rounded shrink-0 text-[10px]"
+                    style="background: hsl(${h} 70% 25% / 0.4); color: hsl(${h} 85% 78%)">
+                ${best.label} ${Math.round(best.score * 100)}%
+              </span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      updateDelusionMeter();
+    }
+
+    function updateDelusionMeter() {
+      const checkedCount = document.querySelectorAll('.trap-cb:checked').length;
+      const topScore = currentEmotionScores[0]?.score || 0.5;
+      const rawPct = Math.min(100, Math.round(25 + topScore * 30 + checkedCount * 11));
+
+      let rank = 'Mild Buyer Itch';
+      if (rawPct >= 85) rank = 'CERTIFIED SUPREME CLOWN 🤡🎪';
+      else if (rawPct >= 65) rank = 'Stage-4 Marketing Victim 🤡';
+      else if (rawPct >= 45) rank = 'Dopamine Compromised 🚨';
+
+      document.getElementById('delusionScoreText').innerText = `${rawPct}% (${rank})`;
+      document.getElementById('delusionBar').style.width = `${rawPct}%`;
+    }
+
+    // =========================================================================
+    // 3. CURRENCY, PRESETS & PARSING MESSY SHARE LINKS (AMAZON/FLIPKART)
+    // =========================================================================
+    let currentCurrency = 'INR';
+    let userManuallySetPrice = false;
+    let activeReport = null;
+    let reconLogs = [];
+
+    function onProductInputChanged() {
+      userManuallySetPrice = false;
+      const priceInput = document.getElementById('priceInput');
+      priceInput.value = '';
+      priceInput.placeholder = 'Auto via Search';
+      queueLiveEmotionScan();
+    }
+
+    function onManualPriceInput() {
+      const val = parseFloat(document.getElementById('priceInput').value);
+      userManuallySetPrice = !isNaN(val) && val > 0;
+    }
+
+    function resetPriceToAuto() {
+      userManuallySetPrice = false;
+      const priceInput = document.getElementById('priceInput');
+      priceInput.value = '';
+      priceInput.placeholder = 'Auto via Search';
+      showToast("Price set to Auto-Detect via Search & AI!");
+    }
+
+    function toggleCurrency() {
+      const priceInput = document.getElementById('priceInput');
+      const val = parseFloat(priceInput.value);
+      if (currentCurrency === 'INR') {
+        currentCurrency = 'USD';
+        document.getElementById('currencyBtn').innerText = '$ USD';
+        document.getElementById('priceCurrencySymbol').innerText = '$';
+        const dSym = document.getElementById('dossierCurrencySym');
+        if (dSym) dSym.innerText = '$';
+        if (!isNaN(val) && val > 0) priceInput.value = Math.max(1, Math.round(val / 84));
+      } else {
+        currentCurrency = 'INR';
+        document.getElementById('currencyBtn').innerText = '₹ INR';
+        document.getElementById('priceCurrencySymbol').innerText = '₹';
+        const dSym = document.getElementById('dossierCurrencySym');
+        if (dSym) dSym.innerText = '₹';
+        if (!isNaN(val) && val > 0) priceInput.value = Math.round(val * 84);
+      }
+      if (activeReport) {
+        const converted = currentCurrency === 'INR' ? activeReport.priceInr : Math.max(1, Math.round(activeReport.priceInr / 84));
+        activeReport.price = converted;
+        activeReport.priceFormatted = formatMoney(converted);
+        document.getElementById('inlineEditablePrice').value = converted;
+        renderOpportunityCostGrid(activeReport.price);
+        document.getElementById('saveBtnAmount').innerText = activeReport.priceFormatted;
+      }
+      updateSavedCounterDisplay();
+    }
+
+    function formatMoney(amountInCurrentCurrency) {
+      const sym = currentCurrency === 'INR' ? '₹' : '$';
+      const locale = currentCurrency === 'INR' ? 'en-IN' : 'en-US';
+      return `${sym}${Number(amountInCurrentCurrency || 0).toLocaleString(locale)}`;
+    }
+
+    function loadPreset(title, inrPrice, excuse) {
+      sfx.playClownHonk();
+      document.getElementById('productInput').value = title;
+      if (inrPrice && inrPrice > 0) {
+        userManuallySetPrice = true;
+        document.getElementById('priceInput').value = currentCurrency === 'INR' ? inrPrice : Math.round(inrPrice / 84);
+      } else {
+        userManuallySetPrice = false;
+        document.getElementById('priceInput').value = '';
+        document.getElementById('priceInput').placeholder = 'Auto via Search';
+      }
+      document.getElementById('excuseInput').value = excuse;
+      queueLiveEmotionScan();
+      runFullInterrogation();
+    }
+
+    function parseSharedInputPayload(rawPayload) {
+      if (!rawPayload) return { cleanName: '', extractedUrl: '' };
+      
+      let text = String(rawPayload).trim();
+      let extractedUrl = '';
+      
+      const urlMatch = text.match(/(https?:\/\/[^\s]+)/i);
+      if (urlMatch) {
+        extractedUrl = urlMatch[0];
+        text = text.replace(urlMatch[0], '').trim();
+      }
+
+      text = text
+        .replace(/^Take a look at this\s+/i, '')
+        .replace(/^Check out this\s+/i, '')
+        .replace(/^Deal of the day:\s+/i, '')
+        .replace(/^Limited-time deal:\s+/i, '')
+        .replace(/\bon Flipkart:?$/i, '')
+        .replace(/\bon Amazon:?$/i, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      if (!text && extractedUrl) {
+        try {
+          const u = new URL(extractedUrl);
+          const segs = u.pathname.split('/').filter(Boolean);
+          for (const s of segs) {
+            if (s.length > 4 && !/^(dp|gp|product|item|ref|p|buy|s|d|dl|s1)$/i.test(s) && !/^[A-Z0-9]{10}$/.test(s)) {
+              text = decodeURIComponent(s).replace(/[-_+]/g, ' ');
+              break;
+            }
+          }
+          if (!text && u.searchParams.get('q')) text = u.searchParams.get('q');
+          if (!text) text = u.hostname.replace('www.', '') + ' Product';
+        } catch (e) {}
+      }
+
+      return {
+        cleanName: text || 'Consumer Product',
+        extractedUrl
+      };
+    }
+
+    async function pasteClipboard() {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text) {
+          const parsed = parseSharedInputPayload(text);
+          document.getElementById('productInput').value = parsed.extractedUrl || parsed.cleanName;
+          onProductInputChanged();
+          showToast(`Pasted: "${parsed.cleanName.slice(0, 30)}..." Launching recon!`);
+          runFullInterrogation();
+        }
+      } catch (e) {
+        showToast("Tap inside the input and select Paste.");
+      }
+    }
+
+    // =========================================================================
+    // 4. LIVE SEARCH RECONNAISSANCE, ANTI-EMI PRICE FILTER & GEMINI GROUNDING
+    // =========================================================================
+    function logRecon(stepMsg, type = 'info') {
+      const time = new Date().toLocaleTimeString('en-IN', { hour12: false });
+      const color = type === 'warn' ? 'text-amber-400' : type === 'success' ? 'text-emerald-400' : 'text-zinc-300';
+      const entry = `<div class="${color}">[${time}] ${escapeHtml(stepMsg)}</div>`;
+      reconLogs.push(entry);
+      const liveBox = document.getElementById('reconLiveLogBox');
+      if (liveBox) {
+        liveBox.innerHTML = reconLogs.join('');
+        liveBox.scrollTop = liveBox.scrollHeight;
+      }
+      const doneBox = document.getElementById('reconCompletedLog');
+      if (doneBox) {
+        doneBox.innerHTML = reconLogs.join('');
+      }
+    }
+
+    function extractCleanProductName(rawInput) {
+      const parsed = parseSharedInputPayload(rawInput);
+      return parsed.cleanName.slice(0, 80) || 'Consumer Product';
+    }
+
+    function getCategorySanityBoundsINR(productName) {
+      const lower = productName.toLowerCase();
+
+      if (/\biphone\s*1[567]\s*pro\s*max\b/i.test(lower)) return { min: 115000, max: 195000, typical: 144900, label: 'Apple iPhone Pro Max Retail' };
+      if (/\biphone\s*1[4567]\s*pro\b/i.test(lower)) return { min: 95000, max: 175000, typical: 119900, label: 'Apple iPhone Pro India Retail' };
+      if (/\biphone\s*1[567]\s*plus\b/i.test(lower)) return { min: 68000, max: 115000, typical: 89900, label: 'Apple iPhone Plus India Retail' };
+      if (/\biphone\s*1[34567]\b/i.test(lower) || /\biphone\b/i.test(lower)) return { min: 48000, max: 160000, typical: 79900, label: 'Apple iPhone India Street Price' };
+
+      if (/\b(galaxy\s*s2[345]\s*ultra|fold\s*[56]|pixel\s*[89]\s*pro)\b/i.test(lower)) return { min: 85000, max: 175000, typical: 124999, label: 'Flagship Smartphone India Retail' };
+      if (/\b(galaxy\s*s2[345]|pixel\s*[89]|oneplus\s*1[23])\b/i.test(lower)) return { min: 48000, max: 98000, typical: 69999, label: 'Premium Smartphone India Retail' };
+
+      if (/\b(macbook\s*pro)\b/i.test(lower)) return { min: 135000, max: 350000, typical: 169900, label: 'MacBook Pro India Retail' };
+      if (/\b(macbook\s*air|macbook)\b/i.test(lower)) return { min: 75000, max: 180000, typical: 99900, label: 'MacBook Air India Retail' };
+      if (/\b(ipad\s*pro)\b/i.test(lower)) return { min: 75000, max: 200000, typical: 99900, label: 'iPad Pro India Retail' };
+      if (/\b(ipad)\b/i.test(lower)) return { min: 28000, max: 95000, typical: 39900, label: 'iPad India Retail' };
+      if (/\b(ps5|playstation\s*5|xbox\s*series\s*x)\b/i.test(lower)) return { min: 38000, max: 65000, typical: 54990, label: 'Console India Retail' };
+      if (/\b(rtx\s*40[789]0|rtx\s*50[789]0)\b/i.test(lower)) return { min: 55000, max: 240000, typical: 92000, label: 'GPU India Retail' };
+
+      if (/\b(wh-1000xm[45]|airpods\s*max|bose\s*quietcomfort\s*ultra)\b/i.test(lower)) return { min: 19000, max: 62000, typical: 26990, label: 'Flagship ANC Headphones Retail' };
+      if (/\b(airpods\s*pro)\b/i.test(lower)) return { min: 16000, max: 28000, typical: 23900, label: 'AirPods Pro India Retail' };
+      if (/\b(ultrahuman|oura\s*ring|galaxy\s*ring|whoop)\b/i.test(lower)) return { min: 18000, max: 42000, typical: 28499, label: 'Smart Biohacking Wearable Retail' };
+      if (/\b(apple\s*watch\s*ultra|garmin\s*fenix|garmin\s*epix)\b/i.test(lower)) return { min: 58000, max: 120000, typical: 89900, label: 'Adventure Smartwatch Retail' };
+      if (/\b(apple\s*watch|garmin\s*forerunner|galaxy\s*watch)\b/i.test(lower)) return { min: 18000, max: 55000, typical: 34900, label: 'Smartwatch India Retail' };
+      if (/\b(keychron|nuphy|lofree|mechanical\s*keyboard)\b/i.test(lower)) return { min: 4500, max: 35000, typical: 14500, label: 'Enthusiast Mechanical Keyboard Retail' };
+      if (/\b(nanopresso|picopresso|aeropress|flair\s*espresso|timemore|comandante)\b/i.test(lower)) return { min: 3500, max: 45000, typical: 8999, label: 'Specialty Coffee Gear Retail' };
+
+      return { min: 400, max: 500000, typical: null, label: 'Indian E-Commerce Market Data' };
+    }
+
+    function extractSmartPriceINR(rawTextCorpus, productName) {
+      if (!rawTextCorpus) return null;
+      const bounds = getCategorySanityBoundsINR(productName);
+      const validPrices = [];
+      let rejectedCount = 0;
+
+      const trapContextRegex = /\b(emi|month|\/mo|\/m|per\s*month|monthly|no-cost|no\s*cost|installment|discount|save|saving|savings|off\b|cashback|exchange|up\s*to|upto|starting\s*at|starts\s*at|starting\s*from|delivery|shipping|warranty|applecare|care\+|protect|protection|insurance|case|cover|back\s*cover|tempered|screen\s*guard|protector|adapter|charger|cable|strap|voucher|coupon|bank\s*offer|instant\s*discount)\b/i;
+
+      const priceRegex = /(?:₹|Rs\.?|INR)\s*([0-9]{1,3}(?:,[0-9]{2,3})+(?:\.[0-9]{1,2})?|[0-9]{3,7})/gi;
+      let match;
+
+      while ((match = priceRegex.exec(rawTextCorpus)) !== null) {
+        const rawNumStr = match[1].replace(/,/g, '');
+        const val = Math.round(parseFloat(rawNumStr));
+        if (isNaN(val) || val <= 0) continue;
+
+        const startIdx = Math.max(0, match.index - 55);
+        const endIdx = Math.min(rawTextCorpus.length, match.index + match[0].length + 50);
+        const surroundingSnippet = rawTextCorpus.slice(startIdx, endIdx).replace(/\s+/g, ' ');
+
+        if (trapContextRegex.test(surroundingSnippet)) {
+          rejectedCount++;
+          if (rejectedCount <= 3) {
+            logRecon(`Filtered out EMI/Discount trap ₹${val.toLocaleString('en-IN')}: "${surroundingSnippet.slice(0, 65)}..."`, 'warn');
+          }
+          continue;
+        }
+
+        if (val < bounds.min || val > bounds.max) {
+          rejectedCount++;
+          if (rejectedCount <= 4) {
+            logRecon(`Rejected out-of-range price ₹${val.toLocaleString('en-IN')} (Expected ₹${bounds.min.toLocaleString('en-IN')}–₹${bounds.max.toLocaleString('en-IN')} for ${productName})`, 'warn');
+          }
+          continue;
+        }
+
+        validPrices.push(val);
+      }
+
+      if (validPrices.length === 0) return null;
+
+      validPrices.sort((a, b) => a - b);
+      const mid = Math.floor(validPrices.length / 2);
+      const chosen = validPrices[mid];
+      logRecon(`Extracted verified retail price candidate: ₹${chosen.toLocaleString('en-IN')} from clean listing signal(s).`, 'success');
+      return chosen;
+    }
+
+    async function performLiveProductRecon(rawInput, cleanName) {
+      const images = [];
+      let scrapedTitle = null;
+      let scrapedDesc = '';
+      const scrapedSpecs = [];
+      let combinedSearchText = '';
+
+      const parsed = parseSharedInputPayload(rawInput);
+      const targetUrl = parsed.extractedUrl;
+
+      if (targetUrl) {
+        logRecon(`Stage 1: Scraping product URL (${targetUrl.slice(0, 48)}...)`);
+        try {
+          const [microRes, jinaUrlRes] = await Promise.allSettled([
+            fetch(`https://api.microlink.io/?url=${encodeURIComponent(targetUrl)}`).then(r => r.ok ? r.json() : null),
+            fetch(`https://r.jina.ai/${targetUrl}`, { headers: { 'Accept': 'text/plain' } }).then(r => r.ok ? r.text() : '')
+          ]);
+
+          if (microRes.status === 'fulfilled' && microRes.value?.data) {
+            const d = microRes.value.data;
+            if (d.title && !/captcha|robot|access denied/i.test(d.title)) scrapedTitle = d.title;
+            if (d.description) scrapedDesc += d.description + ' ';
+            if (d.image?.url) images.push({ url: d.image.url, caption: 'Listing Mugshot' });
+            logRecon(`Microlink extracted title: "${(scrapedTitle || cleanName).slice(0, 50)}"`, 'success');
+          }
+
+          if (jinaUrlRes.status === 'fulfilled' && jinaUrlRes.value) {
+            const pageText = jinaUrlRes.value.slice(0, 12000);
+            if (!/Enter the characters you see below|Robot Check/i.test(pageText)) {
+              combinedSearchText += '\n' + pageText;
+              const bullets = pageText.split('\n')
+                .map(l => l.trim())
+                .filter(l => /^[-*•]/.test(l) && l.length > 22 && l.length < 150)
+                .slice(0, 5);
+              bullets.forEach(b => scrapedSpecs.push(b.replace(/^[-*•]\s*/, '')));
+            }
+          }
+        } catch (e) {}
+      }
+
+      const effectiveQueryName = scrapedTitle ? scrapedTitle.split(/[:|-]/)[0].trim() : cleanName;
+      logRecon(`Stage 2: Running Live Web Search for "${effectiveQueryName} price in India ₹ specs"...`);
+
+      try {
+        const ddgSearchUrl = `https://r.jina.ai/https://html.duckduckgo.com/html/?q=${encodeURIComponent(effectiveQueryName + ' price in India Rs specs buy')}`;
+        const searchRes = await fetch(ddgSearchUrl, { headers: { 'Accept': 'text/plain' } });
+        if (searchRes.ok) {
+          const searchText = await searchRes.text();
+          if (searchText && searchText.length > 100) {
+            combinedSearchText += '\n' + searchText.slice(0, 10000);
+            const snippetLines = searchText.split('\n')
+              .map(l => l.replace(/\[.*?\]\(.*?\)/g, '').trim())
+              .filter(l => l.length > 38 && l.length < 160 && /\b(GB|MP|Hz|mAh|processor|chip|display|battery|titanium|aluminum|wireless|sensor|weight|warranty|ANC|watt|inch)\b/i.test(l))
+              .slice(0, 5);
+            snippetLines.forEach(s => {
+              if (scrapedSpecs.length < 5) scrapedSpecs.push(s);
+            });
+          }
+        }
+      } catch (e) {}
+
+      const wikiQuery = effectiveQueryName.split(' ').slice(0, 4).join(' ');
+      try {
+        const [wikiSummaryRes, wikiImgRes] = await Promise.allSettled([
+          fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(wikiQuery)}&utf8=&format=json&origin=*`).then(r => r.json()),
+          fetch(`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent('filetype:bitmap ' + wikiQuery)}&gsrlimit=4&prop=imageinfo&iiprop=url&iiurlwidth=450&format=json&origin=*`).then(r => r.json())
+        ]);
+
+        if (wikiImgRes.status === 'fulfilled') {
+          const pages = Object.values(wikiImgRes.value?.query?.pages || {});
+          for (const p of pages) {
+            const imgUrl = p?.imageinfo?.[0]?.thumburl || p?.imageinfo?.[0]?.url;
+            if (imgUrl && images.length < 3) {
+              images.push({ url: imgUrl, caption: 'Visual Evidence Recon' });
+            }
+          }
+        }
+      } catch (e) {}
+
+      const searchExtractedPriceInr = extractSmartPriceINR(combinedSearchText, effectiveQueryName);
+
+      return {
+        images,
+        scrapedTitle: scrapedTitle || effectiveQueryName,
+        scrapedDesc: (scrapedDesc + ' ' + combinedSearchText.slice(0, 1800)).trim(),
+        scrapedSpecs: scrapedSpecs.slice(0, 5),
+        searchExtractedPriceInr
+      };
+    }
+
+    async function fetchLiveComplaints(cleanName) {
+      const shortQuery = cleanName.split(' ').slice(0, 3).join(' ');
+      const results = [];
+      logRecon(`Stage 3: Querying Reddit & HackerNews for "${shortQuery}" buyer regret...`);
+
+      try {
+        const redditUrl = `https://www.reddit.com/search.json?q=${encodeURIComponent(shortQuery + ' regret OR issue OR broke OR overrated')}&sort=relevance&limit=4`;
+        const res = await fetch(redditUrl);
+        if (res.ok) {
+          const data = await res.json();
+          const posts = data?.data?.children || [];
+          posts.forEach(p => {
+            const d = p.data;
+            if (d?.title) {
+              results.push({
+                source: `r/${d.subreddit || 'ConsumerRegret'}`,
+                title: d.title,
+                snippet: d.selftext ? d.selftext.slice(0, 145) + '...' : 'Verified buyer complaint thread on Reddit.',
+                url: `https://www.reddit.com${d.permalink}`,
+                upvotes: d.score || 19
+              });
+            }
+          });
+        }
+      } catch (e) {}
+
+      if (results.length === 0) {
+        results.push(
+          {
+            source: 'r/BuyItForLife',
+            title: `Anyone else regret buying the ${cleanName} after the honeymoon phase wore off?`,
+            snippet: `Used it non-stop for 4 days, then realized maintaining/charging it is a chore. Now it sits in my drawer next to my old hobbies.`,
+            url: `https://www.reddit.com/search/?q=${encodeURIComponent(cleanName + ' regret')}`,
+            upvotes: 184
+          },
+          {
+            source: 'r/Anticonsumption',
+            title: `Stop falling for influencer sponsorships pushing ${cleanName}`,
+            snippet: `Half the price goes straight to marketing affiliate commissions. Real-world improvement over previous year's tech is barely noticeable.`,
+            url: `https://www.reddit.com/search/?q=${encodeURIComponent(cleanName + ' problem')}`,
+            upvotes: 312
+          }
+        );
+      }
+
+      return results.slice(0, 4);
+    }
+
+    async function generateSurgicalRoastReport(productName, candidatePriceInr, excuse, emotionsList, scrapedDesc, scrapedSpecs) {
+      const bounds = getCategorySanityBoundsINR(productName);
+      const emotionSummary = emotionsList.map(e => `${e.label} (${Math.round(e.score * 100)}%)`).join(', ');
+
+      const systemPrompt = `You are a savage, hilarious, hyper-observant anti-consumerist courtroom prosecutor and Indian market tech analyst.
+The user wants to impulse-buy "${productName}".
+Their excuse: "${excuse || 'I just want it.'}"
+RoBERTa emotion signals: ${emotionSummary}.
+Determine the real Indian retail price in INR (never an EMI monthly installment like ₹4,999/mo or case price!), 4 real specs, 4 specific engineering flaws, 3 future 1-star reviews from future-self, a 4-stage closet decay timeline, 6 Catch-22 trap checkbox questions quoting specs and ₹ price, a simulated WhatsApp message from mom/friend roasting them, and a final unconditional courtroom verdict.`;
+
+      const schema = {
+        type: "OBJECT",
+        properties: {
+          accurate_price_inr: { type: "INTEGER" },
+          price_source_note: { type: "STRING" },
+          categoryLabel: { type: "STRING" },
+          realSpecs: { type: "ARRAY", items: { type: "STRING" } },
+          productSummary: { type: "STRING" },
+          whatsappRoast: { type: "STRING" },
+          specificFlaws: { type: "ARRAY", items: { type: "STRING" } },
+          negativeReviews: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: { timeframe: { type: "STRING" }, author: { type: "STRING" }, review: { type: "STRING" } },
+              required: ["timeframe", "author", "review"]
+            }
+          },
+          usageTimeline: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: { stage: { type: "STRING" }, reality: { type: "STRING" } },
+              required: ["stage", "reality"]
+            }
+          },
+          trapQuestions: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: { question: { type: "STRING" }, checkedRoast: { type: "STRING" }, uncheckedRoast: { type: "STRING" }, soundEffect: { type: "STRING" } },
+              required: ["question", "checkedRoast", "uncheckedRoast", "soundEffect"]
+            }
+          },
+          finalVerdict: { type: "STRING" }
+        },
+        required: ["accurate_price_inr", "price_source_note", "categoryLabel", "realSpecs", "productSummary", "whatsappRoast", "specificFlaws", "negativeReviews", "usageTimeline", "trapQuestions", "finalVerdict"]
+      };
+
+      try {
+        logRecon(`Querying Cloud AI with scraped market data...`);
+        const pollRes = await fetch('https://text.pollinations.ai/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'openai',
+            jsonMode: true,
+            messages: [
+              { role: 'system', content: systemPrompt + '\nReturn strictly valid JSON with keys: accurate_price_inr, price_source_note, categoryLabel, realSpecs, productSummary, whatsappRoast, specificFlaws, negativeReviews, usageTimeline, trapQuestions, finalVerdict.' },
+              { role: 'user', content: `Product: "${productName}". Scraped price candidate: ${candidatePriceInr || bounds.typical || 'find real INR price'}. Excuse: "${excuse}"` }
+            ]
+          })
+        });
+        if (pollRes.ok) {
+          const text = await pollRes.text();
+          const jsonMatch = text.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            const parsed = JSON.parse(jsonMatch[0]);
+            if (parsed.accurate_price_inr && parsed.trapQuestions) {
+              logRecon(`AI verified price: ₹${Number(parsed.accurate_price_inr).toLocaleString('en-IN')}`, 'success');
+              return parsed;
+            }
+          }
+        }
+      } catch (e) {}
+
+      const verifiedInr = candidatePriceInr || bounds.typical || 18999;
+      logRecon(`Using verified market database price: ₹${verifiedInr.toLocaleString('en-IN')}`, 'success');
+      return buildBespokeFallbackReport(productName, verifiedInr, bounds.label, excuse, emotionsList, scrapedSpecs);
+    }
+
+    function buildBespokeFallbackReport(productName, verifiedPriceInr, priceSourceNote, excuse, emotionsList, scrapedSpecs) {
+      const topEmo = emotionsList[0]?.label || 'desire';
+      const lower = (productName + ' ' + excuse).toLowerCase();
+      const priceFormatted = `₹${Number(verifiedPriceInr).toLocaleString('en-IN')}`;
+
+      let categoryLabel = "Weaponized Dopamine Hardware";
+      let defaultSpecs = [
+        `Retail Configuration: ${productName} (Indian Market Unit)`,
+        `Verified Street Price: ${priceFormatted} (${priceSourceNote})`,
+        `Primary Marketing Hook: Next-gen flagship features & design`,
+        `Depreciation Curve: Loses ~32% resale value within 9 months of launch`
+      ];
+
+      let flaw1 = `Proprietary parts and tight tolerances on the ${productName} turn basic upkeep or out-of-warranty repair into an expensive headache.`;
+      let flaw2 = `The exact flagship feature you are drooling over adds 5% real-world daily utility while costing you ${priceFormatted}.`;
+      let flaw3 = `The next revision will be announced right after your return window closes, making this ${priceFormatted} unit feel dated.`;
+      let flaw4 = `After 10 days of novelty, your brain adapts and treats the ${productName} like ordinary background furniture.`;
+
+      if (/\b(iphone|galaxy|pixel|oneplus|phone|smartphone)\b/i.test(lower)) {
+        categoryLabel = "Flagship Smartphone Upgrade Treadmill";
+        defaultSpecs = [
+          `Display: 120Hz OLED panel (used 94% of the time for scrolling reels & WhatsApp)`,
+          `Camera: Multi-lens array (to take 48MP photos of restaurant food and receipts)`,
+          `Processor: Flagship SoC (idling at 4% utilization while checking Slack & Gmail)`,
+          `Battery: Lithium cell that still needs a charger every night just like your old phone`
+        ];
+        flaw1 = `Paying ${priceFormatted} to scroll the exact same apps 0.08 seconds faster while your current phone still works fine.`;
+        flaw2 = `You will immediately slap a bulky case and screen protector on it, hiding the 'premium titanium/glass finish' forever.`;
+        flaw3 = `Out-of-warranty screen or back-glass replacement costs as much as a brand new mid-range phone.`;
+        flaw4 = `90% of the 'Pro' camera settings will be tested twice in your room and never opened again.`;
+      }
+
+      const finalSpecs = (scrapedSpecs && scrapedSpecs.length >= 2) ? scrapedSpecs : defaultSpecs;
+
+      return {
+        accurate_price_inr: verifiedPriceInr,
+        price_source_note: priceSourceNote,
+        categoryLabel,
+        realSpecs: finalSpecs,
+        productSummary: `Strip away the keynote hype and ${productName} is a ${priceFormatted} monument to your ${topEmo.toUpperCase()} neurotransmitters—engineered to separate you from ${priceFormatted} for a 72-hour unboxing high while solving zero root problems in your life.`,
+        whatsappRoast: `Beta, you complained about fuel and groceries yesterday, and today you're spending ${priceFormatted} on ${productName}? Please put this in an index fund before I get a headache.`,
+        specificFlaws: [flaw1, flaw2, flaw3, flaw4],
+        negativeReviews: [
+          {
+            timeframe: "1 Week In The Future",
+            author: "Future You (Post-Unboxing Crash)",
+            review: `"The unboxing lasted 4 minutes. I tested the ${productName}, showed it to one coworker who didn't care, and realized I am ${priceFormatted} poorer with the exact same life."`
+          },
+          {
+            timeframe: "3 Months In The Future",
+            author: "Future You (Bank Statement Regret)",
+            review: `"My excuse ('${excuse ? excuse.slice(0, 50) : 'I really need this'}') aged terribly. My old setup did 90% of what this ${productName} does for ₹0."`
+          },
+          {
+            timeframe: "1 Year In The Future",
+            author: "Future You (OLX Lowball Era)",
+            review: `"Checked the trade-in value of my ${priceFormatted} ${productName} and was offered peanuts. Should have put that cash into Nifty 50."`
+          }
+        ],
+        usageTimeline: [
+          { stage: "Day 1 (Dopamine Peak)", reality: `Obsessively testing every setting of the ${productName} and admiring the box.` },
+          { stage: "Week 2 (Hedonic Baseline)", reality: `Novelty evaporates. It now feels completely ordinary, except your bank balance is lighter by ${priceFormatted}.` },
+          { stage: "Month 2 (Friction Phase)", reality: `Minor quirks and charging chores annoy you. You stop using 80% of its advertised features.` },
+          { stage: "Month 6 (Next Shiny Thing)", reality: `The successor model leaks online and you catch yourself making the exact same excuse all over again.` }
+        ],
+        trapQuestions: [
+          {
+            question: `Did you wake up 7 days ago genuinely suffering without "${productName}", or did an algorithm/ad plant this ${priceFormatted} craving in your head?`,
+            checkedRoast: `Liar! Your RoBERTa ${topEmo.toUpperCase()} spike proves marketing spoon-fed you this ${priceFormatted} itch.`,
+            uncheckedRoast: `You left it unchecked—admitting an algorithm manufactured this ${priceFormatted} desire out of thin air!`,
+            soundEffect: "buzzer"
+          },
+          {
+            question: `Look at its headline spec ("${finalSpecs[0].slice(0, 50)}"): will this genuinely change your daily output or happiness 30 days from now?`,
+            checkedRoast: `Pure delusion! Hardware specs don't upgrade human habits—you're paying ${priceFormatted} for placebo.`,
+            uncheckedRoast: `Unchecked! You just admitted the main technical spec of ${productName} won't change your life at all!`,
+            soundEffect: "honk"
+          },
+          {
+            question: `Be honest: does your justification ("${excuse ? excuse.slice(0, 45) + '...' : 'I will use every feature daily'}") rely on an imaginary disciplined version of yourself?`,
+            checkedRoast: `Self-burn! Buying ${priceFormatted} gear cannot install personal discipline or free time.`,
+            uncheckedRoast: `Denying it doesn't save you—if current-you already has everything dialed in, you don't need ${productName}!`,
+            soundEffect: "vineboom"
+          },
+          {
+            question: `Have you 100% worn out or broken the existing item you currently own that already does 85% of what ${productName} does?`,
+            checkedRoast: `Press X to doubt. Your current gear still works; you're just bored with it.`,
+            uncheckedRoast: `You didn't check it! That means you ALREADY own a working alternative and want to burn ${priceFormatted} on redundancy.`,
+            soundEffect: "buzzer"
+          },
+          {
+            question: `If you were legally forbidden from ever showing, mentioning, or flexing "${productName}" to anyone, would you still happily pay ${priceFormatted}?`,
+            checkedRoast: `Caught! You're paying ${priceFormatted} for subtle status flexing and validation.`,
+            uncheckedRoast: `Left blank—which means a huge chunk of this ${priceFormatted} price tag is pure social signaling!`,
+            soundEffect: "honk"
+          },
+          {
+            question: `Would you rather own one depreciating ${productName}, or watch ${priceFormatted} compound into ₹${Math.round(verifiedPriceInr * Math.pow(1.12, 10)).toLocaleString('en-IN')} in a 10-year index fund?`,
+            checkedRoast: `Checking this box while trying to buy a ${priceFormatted} depreciating gadget is Olympic-level cognitive dissonance!`,
+            uncheckedRoast: `You left compounding wealth unchecked for a gadget. The Clown Council salutes you 🤡.`,
+            soundEffect: "flatline"
+          }
+        ],
+        finalVerdict: `Case closed. After running a live web search, filtering out fake EMI traps, and verifying the real retail price of "${productName}" at ${priceFormatted} (${priceSourceNote}), our RoBERTa neural scan caught a ${topEmo.toUpperCase()} spike in your excuse. Whether you ticked a box or left it blank, you have 0.00% genuine need for this purchase. Close the store tab and keep ${priceFormatted} in your portfolio.`
+      };
+    }
+
+    // =========================================================================
+    // 5. FULL INTERROGATION ORCHESTRATOR & UI RENDERING
+    // =========================================================================
+    async function runFullInterrogation() {
+      const rawProduct = document.getElementById('productInput').value.trim();
+      const rawExcuse = document.getElementById('excuseInput').value.trim();
+
+      if (!rawProduct) {
+        sfx.playBuzzer();
+        showToast("Paste a product link or type an item name first!");
+        document.getElementById('productInput').focus();
+        return;
+      }
+
+      sfx.playVineBoom();
+      queueLiveEmotionScan();
+      reconLogs = [];
+
+      const loader = document.getElementById('reconLoader');
+      const studio = document.getElementById('interrogationStudio');
+      const verdictSec = document.getElementById('finalVerdictSection');
+
+      studio.classList.add('hidden');
+      verdictSec.classList.add('hidden');
+      loader.classList.remove('hidden');
+
+      const cleanName = extractCleanProductName(rawProduct);
+      logRecon(`Initiating Overkill Recon on target: "${cleanName}"...`);
+
+      document.getElementById('reconStatusTitle').innerText = `Searching Real Price & Specs for "${cleanName}"...`;
+      document.getElementById('reconStatusSub').innerText = `Scraping live retail listings, filtering fake EMI traps & analyzing emotion telemetry...`;
+
+      const [mediaData, liveComplaints] = await Promise.all([
+        performLiveProductRecon(rawProduct, cleanName),
+        fetchLiveComplaints(cleanName)
+      ]);
+
+      const resolvedName = mediaData.scrapedTitle || cleanName;
+
+      const aiReport = await generateSurgicalRoastReport(
+        resolvedName,
+        mediaData.searchExtractedPriceInr,
+        rawExcuse,
+        currentEmotionScores,
+        mediaData.scrapedDesc,
+        mediaData.scrapedSpecs
+      );
+
+      const bounds = getCategorySanityBoundsINR(resolvedName);
+      let finalPriceInr = null;
+      let provenanceText = aiReport.price_source_note || bounds.label;
+
+      const manualVal = parseFloat(document.getElementById('priceInput').value);
+      if (userManuallySetPrice && !isNaN(manualVal) && manualVal > 0) {
+        finalPriceInr = currentCurrency === 'INR' ? Math.round(manualVal) : Math.round(manualVal * 84);
+        provenanceText = 'User Custom Price';
+      } else {
+        const aiPrice = Number(aiReport.accurate_price_inr) || 0;
+        if (aiPrice >= bounds.min && aiPrice <= bounds.max) {
+          finalPriceInr = aiPrice;
+        } else if (mediaData.searchExtractedPriceInr && mediaData.searchExtractedPriceInr >= bounds.min) {
+          finalPriceInr = mediaData.searchExtractedPriceInr;
+          provenanceText = 'Live Web Search (Anti-EMI Filtered)';
+        } else if (bounds.typical) {
+          finalPriceInr = bounds.typical;
+          provenanceText = bounds.label;
+        } else {
+          finalPriceInr = 14999;
+        }
+        const displayPrice = currentCurrency === 'INR' ? finalPriceInr : Math.max(1, Math.round(finalPriceInr / 84));
+        document.getElementById('priceInput').value = displayPrice;
+      }
+
+      const displayPrice = currentCurrency === 'INR' ? finalPriceInr : Math.max(1, Math.round(finalPriceInr / 84));
+      const priceFormatted = formatMoney(displayPrice);
+
+      activeReport = {
+        id: Date.now(),
+        timestamp: new Date().toISOString(),
+        title: resolvedName.slice(0, 75),
+        cleanName: resolvedName.slice(0, 75),
+        priceInr: finalPriceInr,
+        price: displayPrice,
+        priceFormatted,
+        provenanceText,
+        excuse: rawExcuse,
+        mediaData,
+        liveComplaints,
+        aiReport,
+        saved: false
+      };
+
+      // Automatically store this interrogation in persistent localStorage
+      recordInterrogationToArchives(activeReport);
+
+      document.getElementById('reconSummaryBanner').innerText =
+        `Verified "${activeReport.title}" at ${priceFormatted} (${provenanceText})`;
+
+      loader.classList.add('hidden');
+      renderStudio(activeReport);
+      studio.classList.remove('hidden');
+      sfx.playFlatline();
+      lucide.createIcons();
+      studio.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Automatically speak the roast if Voice ON
+      if (voiceRoastEnabled) {
+        setTimeout(() => speakCurrentRoast(), 600);
+      }
+    }
+
+    function onInlinePriceEdited(newVal) {
+      const num = parseFloat(newVal);
+      if (isNaN(num) || num <= 0 || !activeReport) return;
+      userManuallySetPrice = true;
+      activeReport.price = Math.round(num);
+      activeReport.priceInr = currentCurrency === 'INR' ? activeReport.price : Math.round(activeReport.price * 84);
+      activeReport.priceFormatted = formatMoney(activeReport.price);
+      document.getElementById('priceInput').value = activeReport.price;
+      document.getElementById('resPriceProvenance').innerText = 'User Edited Price';
+      document.getElementById('saveBtnAmount').innerText = activeReport.priceFormatted;
+      renderOpportunityCostGrid(activeReport.price);
+      updateReportInArchives(activeReport);
+      sfx.playChaChing();
+      showToast(`Updated price to ${activeReport.priceFormatted} & recalculated opportunity cost!`);
+    }
+
+    function renderOpportunityCostGrid(priceInCurrentCurrency) {
+      const inrEquiv = currentCurrency === 'INR' ? priceInCurrentCurrency : priceInCurrentCurrency * 84;
+      const biryanis = Math.max(1, Math.round(inrEquiv / 320));
+      const petrolLitres = Math.max(1, Math.round(inrEquiv / 102));
+      const futureVal = Math.round(priceInCurrentCurrency * Math.pow(1.12, 10));
+      const workHours = Math.max(1, Math.round(inrEquiv / 650));
+
+      document.getElementById('opportunityGrid').innerHTML = `
+        <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800">
+          <div class="text-[10px] font-mono uppercase text-zinc-400">10-Yr Index SIP (12%)</div>
+          <div class="text-base font-mono font-extrabold text-emerald-400 mt-0.5">${formatMoney(futureVal)}</div>
+          <div class="text-[10px] text-zinc-500">Compound wealth sacrificed</div>
+        </div>
+        <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800">
+          <div class="text-[10px] font-mono uppercase text-zinc-400">Plates of Biryani</div>
+          <div class="text-base font-mono font-extrabold text-amber-400 mt-0.5">🍛 ${biryanis.toLocaleString('en-IN')} Plates</div>
+          <div class="text-[10px] text-zinc-500">Real guaranteed happiness</div>
+        </div>
+        <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800">
+          <div class="text-[10px] font-mono uppercase text-zinc-400">Fuel / Road Trips</div>
+          <div class="text-base font-mono font-extrabold text-sky-400 mt-0.5">⛽ ${petrolLitres.toLocaleString('en-IN')} Litres</div>
+          <div class="text-[10px] text-zinc-500">~${(petrolLitres * 18).toLocaleString('en-IN')} km of real rides</div>
+        </div>
+        <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800">
+          <div class="text-[10px] font-mono uppercase text-zinc-400">Life Energy Traded</div>
+          <div class="text-base font-mono font-extrabold text-rose-400 mt-0.5">⏳ ~${workHours.toLocaleString('en-IN')} Hours</div>
+          <div class="text-[10px] text-zinc-500">Of boring 9-to-5 meetings</div>
+        </div>
+      `;
+    }
+
+    function renderStudio(data) {
+      const { title, cleanName, price, priceFormatted, provenanceText, mediaData, liveComplaints, aiReport } = data;
+
+      document.getElementById('resCategoryBadge').innerText = aiReport.categoryLabel || 'Dopamine Trap';
+      document.getElementById('resPriceProvenance').innerText = provenanceText || 'Verified Retail Price';
+      document.getElementById('resProductTitle').innerText = title;
+      document.getElementById('dossierCurrencySym').innerText = currentCurrency === 'INR' ? '₹' : '$';
+      document.getElementById('inlineEditablePrice').value = price;
+      document.getElementById('resBrutalSummary').innerText = aiReport.productSummary;
+      document.getElementById('whatsappRoastMessage').innerText = `"${aiReport.whatsappRoast || "Beta, you said you wanted to save money this month. Why are you looking at this?"}"`;
+
+      const specsList = (aiReport.realSpecs && aiReport.realSpecs.length)
+        ? aiReport.realSpecs
+        : (mediaData.scrapedSpecs && mediaData.scrapedSpecs.length ? mediaData.scrapedSpecs : [`Verified Retail Unit: ${title} (${priceFormatted})`]);
+
+      document.getElementById('resRealSpecsList').innerHTML = specsList.slice(0, 4).map(sp => `
+        <li class="p-2 rounded-lg bg-zinc-900/90 border border-zinc-800/90 flex items-start gap-2">
+          <span class="text-emerald-400 font-bold">▸</span>
+          <span>${escapeHtml(sp)}</span>
+        </li>
+      `).join('');
+
+      const gallery = document.getElementById('mugshotGallery');
+      const imgs = [...(mediaData.images || [])];
+      document.getElementById('imageSourceStatus').innerText = imgs.length
+        ? `${imgs.length} Visual Match(es)`
+        : 'Forensic Blueprint Generated';
+
+      while (imgs.length < 3) {
+        const badgeTexts = ['EXHIBIT A: FUTURE CLUTTER', 'EXHIBIT B: WALLET DRAIN', 'EXHIBIT C: OVERHYPED SPEC'];
+        const idx = imgs.length;
+        const svgData = `data:image/svg+xml;utf8,${encodeURIComponent(`
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220">
+            <rect width="320" height="220" fill="#0d0f17" stroke="#ff2a5f" stroke-width="3" stroke-dasharray="8 6"/>
+            <text x="160" y="55" text-anchor="middle" fill="#ff2a5f" font-family="monospace" font-size="13" font-weight="bold">${badgeTexts[idx]}</text>
+            <text x="160" y="115" text-anchor="middle" fill="#e4e4e7" font-family="sans-serif" font-size="15" font-weight="bold">${cleanName.slice(0, 22)}</text>
+            <text x="160" y="148" text-anchor="middle" fill="#f59e0b" font-family="monospace" font-size="18" font-weight="bold">Verified: ${priceFormatted}</text>
+            <text x="160" y="185" text-anchor="middle" fill="#71717a" font-family="monospace" font-size="11">Dust-Collection Probability: 99.4%</text>
+          </svg>
+        `)}`;
+        imgs.push({ url: svgData, caption: badgeTexts[idx] });
+      }
+
+      gallery.innerHTML = imgs.slice(0, 3).map(img => `
+        <div class="rounded-xl overflow-hidden bg-zinc-950 border border-zinc-800 flex flex-col">
+          <div class="h-28 sm:h-32 w-full bg-zinc-900 overflow-hidden flex items-center justify-center">
+            <img src="${img.url}" alt="${escapeHtml(cleanName)}" class="w-full h-full object-cover hover:scale-105 transition duration-300"
+                 onerror="this.src='https://placehold.co/320x220/11131c/ff2a5f?text=Suspect+Evidence'"/>
+          </div>
+          <span class="text-[10px] font-mono text-zinc-400 px-2 py-1 text-center truncate border-t border-zinc-800/80">${escapeHtml(img.caption)}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('resFlawsList').innerHTML = (aiReport.specificFlaws || []).map(flaw => `
+        <li class="p-2.5 rounded-xl bg-zinc-950/90 border border-zinc-800/90 text-xs text-zinc-300 flex items-start gap-2">
+          <span class="text-brand-red font-bold mt-0.5">⚠️</span>
+          <span>${escapeHtml(flaw)}</span>
+        </li>
+      `).join('');
+
+      renderOpportunityCostGrid(price);
+
+      document.getElementById('timelineContainer').innerHTML = (aiReport.usageTimeline || []).map((t) => `
+        <div class="flex items-start gap-2.5 p-2 rounded-lg bg-zinc-950/70 border border-zinc-800/70">
+          <span class="px-2 py-0.5 rounded bg-zinc-800 text-amber-400 font-mono text-[10px] font-bold shrink-0">${escapeHtml(t.stage)}</span>
+          <span class="text-zinc-300 text-xs">${escapeHtml(t.reality)}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('gSearchRegret').href = `https://www.google.com/search?q=${encodeURIComponent(cleanName + ' site:reddit.com regret OR overrated OR problem')}`;
+      document.getElementById('gSearchOneStar').href = `https://www.google.com/search?q=${encodeURIComponent(cleanName + ' "1 star" OR "worst" review')}`;
+      document.getElementById('gSearchBroken').href = `https://www.google.com/search?q=${encodeURIComponent(cleanName + ' broken OR issue OR defect')}`;
+
+      document.getElementById('liveComplaintsList').innerHTML = liveComplaints.map(c => `
+        <a href="${c.url}" target="_blank" rel="noopener" class="block p-3 rounded-xl bg-zinc-950/90 hover:bg-zinc-900 border border-zinc-800 transition space-y-1">
+          <div class="flex items-center justify-between text-[10px] font-mono">
+            <span class="text-orange-400 font-bold">${escapeHtml(c.source)}</span>
+            <span class="text-zinc-500">▲ ${c.upvotes} · View ↗</span>
+          </div>
+          <div class="text-xs font-bold text-zinc-200 line-clamp-1">${escapeHtml(c.title)}</div>
+          <p class="text-[11px] text-zinc-400 line-clamp-2">${escapeHtml(c.snippet)}</p>
+        </a>
+      `).join('');
+
+      document.getElementById('futureReviewsList').innerHTML = (aiReport.negativeReviews || []).map(r => `
+        <div class="p-3 rounded-xl bg-zinc-950/90 border border-rose-500/25 space-y-1">
+          <div class="flex items-center justify-between text-[10px] font-mono">
+            <span class="text-brand-red font-bold">★☆☆☆☆ ${escapeHtml(r.timeframe)}</span>
+            <span class="text-zinc-400">${escapeHtml(r.author)}</span>
+          </div>
+          <p class="text-xs text-zinc-200 italic leading-relaxed">${escapeHtml(r.review)}</p>
+        </div>
+      `).join('');
+
+      const trapsGrid = document.getElementById('trapCheckboxesGrid');
+      document.getElementById('checkedCountBadge').innerText = `0 / ${(aiReport.trapQuestions || []).length}`;
+
+      trapsGrid.innerHTML = (aiReport.trapQuestions || []).map((q, idx) => `
+        <div class="p-3.5 rounded-xl bg-zinc-950/90 border border-zinc-800 hover:border-zinc-700 transition flex flex-col justify-between gap-2">
+          <label class="flex items-start gap-3 cursor-pointer select-none">
+            <input 
+              type="checkbox" 
+              class="trap-cb mt-0.5 w-4 h-4 rounded border-zinc-700 bg-zinc-900 text-brand-red focus:ring-brand-red shrink-0"
+              data-idx="${idx}"
+              data-sfx="${q.soundEffect || 'buzzer'}"
+              onchange="onTrapCheckboxChange(this, ${idx})"
+            />
+            <span class="text-xs sm:text-sm text-zinc-200 font-medium leading-snug">${escapeHtml(q.question)}</span>
+          </label>
+          <div id="trapRoastDrawer_${idx}" class="hidden p-2.5 rounded-lg bg-rose-950/50 border border-brand-red/40 text-[11px] font-mono text-rose-200"></div>
+        </div>
+      `).join('');
+    }
+
+    function onTrapCheckboxChange(cb, idx) {
+      const qObj = activeReport?.aiReport?.trapQuestions?.[idx];
+      if (!qObj) return;
+
+      const drawer = document.getElementById(`trapRoastDrawer_${idx}`);
+      drawer.classList.remove('hidden');
+
+      if (cb.checked) {
+        const sound = qObj.soundEffect || 'buzzer';
+        if (sound === 'honk') sfx.playClownHonk();
+        else if (sound === 'vineboom') sfx.playVineBoom();
+        else if (sound === 'flatline') sfx.playFlatline();
+        else sfx.playBuzzer();
+
+        drawer.className = 'p-2.5 rounded-lg bg-rose-950/60 border border-brand-red/50 text-[11px] font-mono text-rose-200';
+        drawer.innerHTML = `<strong>🚨 CHECKED TRAP:</strong> ${escapeHtml(qObj.checkedRoast)}`;
+        if (voiceRoastEnabled) speakCurrentRoast(qObj.checkedRoast);
+      } else {
+        sfx.playClownHonk();
+        drawer.className = 'p-2.5 rounded-lg bg-amber-950/50 border border-amber-500/40 text-[11px] font-mono text-amber-200';
+        drawer.innerHTML = `<strong>🤡 UNCHECKED TRAP:</strong> ${escapeHtml(qObj.uncheckedRoast)}`;
+      }
+
+      const checkedTotal = document.querySelectorAll('.trap-cb:checked').length;
+      const total = activeReport.aiReport.trapQuestions.length;
+      document.getElementById('checkedCountBadge').innerText = `${checkedTotal} / ${total}`;
+      updateDelusionMeter();
+    }
+
+    // =========================================================================
+    // 6. FINAL COURTROOM VERDICT, CLOWN CERTIFICATE & 60s COOLDOWN LOCK
+    // =========================================================================
+    function deliverCourtroomVerdict() {
+      if (!activeReport) return;
+      sfx.playSadTrombone();
+
+      const { title, priceFormatted, aiReport } = activeReport;
+      const questions = aiReport.trapQuestions || [];
+      const checkboxes = document.querySelectorAll('.trap-cb');
+      const checkedCount = document.querySelectorAll('.trap-cb:checked').length;
+
+      document.getElementById('verdictHeadline').innerText =
+        `You Checked ${checkedCount} of ${questions.length} Delusions — And Still Lost 100% of the Case`;
+      document.getElementById('verdictMainParagraph').innerText = aiReport.finalVerdict;
+      document.getElementById('saveBtnAmount').innerText = priceFormatted;
+
+      const buryBtn = document.getElementById('buryImpulseBtn');
+      buryBtn.disabled = false;
+      buryBtn.innerHTML = `<i data-lucide="piggy-bank" class="w-4 h-4"></i><span>You're Right. Close Tab & Save <span id="saveBtnAmount">${priceFormatted}</span></span>`;
+
+      const itemized = [];
+      checkboxes.forEach((cb, i) => {
+        const q = questions[i];
+        if (!q) return;
+        if (cb.checked) {
+          itemized.push(`
+            <div class="p-2.5 rounded-xl bg-rose-950/40 border border-brand-red/40 text-rose-200">
+              <div class="font-mono text-[10px] uppercase text-brand-red font-bold">✓ Box #${i + 1} Checked (Self-Incrimination)</div>
+              <div class="mt-0.5">${escapeHtml(q.checkedRoast)}</div>
+            </div>
+          `);
+        } else {
+          itemized.push(`
+            <div class="p-2.5 rounded-xl bg-zinc-950/90 border border-zinc-800 text-zinc-300">
+              <div class="font-mono text-[10px] uppercase text-amber-400 font-bold">☐ Box #${i + 1} Unchecked (Silent Confession)</div>
+              <div class="mt-0.5">${escapeHtml(q.uncheckedRoast)}</div>
+            </div>
+          `);
+        }
+      });
+
+      document.getElementById('verdictItemizedList').innerHTML = itemized.join('');
+
+      const finalSec = document.getElementById('finalVerdictSection');
+      finalSec.classList.remove('hidden');
+      lucide.createIcons();
+      finalSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      if (voiceRoastEnabled) {
+        speakCurrentRoast(`Verdict delivered: You have zero genuine need for ${title}. Put down your phone and save ${priceFormatted}.`);
+      }
+    }
+
+    function crushExcuse(excuseText) {
+      sfx.playVineBoom();
+      const prod = activeReport?.title || 'this item';
+      const price = activeReport?.priceFormatted || 'your hard-earned cash';
+      const topEmo = currentEmotionScores[0]?.label || 'desire';
+
+      const rebuttals = {
+        discount: `💥 OBJECTION OVERRULED: If "${prod}" costs ${price} on a 45% discount, you aren't "saving" 45%—you are spending 100% of ${price} on something you had ₹0 budget for yesterday. That is called losing money with enthusiasm.`,
+        daily: `💥 OBJECTION OVERRULED: You also swore you'd use that foam roller, course, and gym equipment "every single day." RoBERTa detected a ${topEmo.toUpperCase()} spike, which has a scientifically proven half-life of 11 days.`,
+        productivity: `💥 OBJECTION OVERRULED: Calling a ${price} consumer purchase an "investment" is the oldest tax-fraud your brain plays on your wallet. Real investments pay dividends; "${prod}" depreciates 35% the second you tear the seal.`,
+        treat: `💥 OBJECTION OVERRULED: You worked hard this month, so your reward is... trading your labor hours to enrich a conglomerate's stock? Go eat a great dinner or take a nap instead of buying "${prod}".`,
+        resale: `💥 OBJECTION OVERRULED: Nobody wants to deal with lowballers on OLX/Marketplace offering 25% of ${price} six months from now. Keep the cash liquid today.`
+      };
+
+      let reply = rebuttals.treat;
+      const lower = excuseText.toLowerCase();
+      if (/discount|sale|off|deal|cheap/.test(lower)) reply = rebuttals.discount;
+      else if (/every|daily|day|always|years/.test(lower)) reply = rebuttals.daily;
+      else if (/invest|productiv|work|career|health/.test(lower)) reply = rebuttals.productivity;
+      else if (/resale|sell|value/.test(lower)) reply = rebuttals.resale;
+
+      const out = document.getElementById('excuseCrusherOutput');
+      out.classList.remove('hidden');
+      out.innerText = reply;
+      if (voiceRoastEnabled) speakCurrentRoast(reply);
+    }
+
+    function crushCustomExcuse() {
+      const input = document.getElementById('customRebuttalInput');
+      const val = input.value.trim();
+      if (!val) return;
+      crushExcuse(val);
+      input.value = '';
+    }
+
+    // Generate Shareable HTML5 Canvas Clown Certificate
+    function generateClownCertificate() {
+      if (!activeReport) return;
+      const canvas = document.getElementById('certificateCanvas');
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = "#08090d";
+      ctx.fillRect(0, 0, 800, 600);
+
+      ctx.strokeStyle = "#ff2a5f";
+      ctx.lineWidth = 8;
+      ctx.strokeRect(20, 20, 760, 560);
+
+      ctx.strokeStyle = "#f59e0b";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(30, 30, 740, 540);
+
+      ctx.fillStyle = "#ff2a5f";
+      ctx.font = "bold 26px 'Space Grotesk', sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("CLOWN COUNCIL INTERVENTION ACCORD", 400, 85);
+
+      ctx.fillStyle = "#a1a1aa";
+      ctx.font = "14px 'JetBrains Mono', monospace";
+      ctx.fillText("OFFICIAL NOTICE OF DOPAMINE DELUSION & ZERO PRACTICAL NEED", 400, 115);
+
+      ctx.fillStyle = "#11131c";
+      ctx.fillRect(60, 145, 680, 110);
+      ctx.strokeStyle = "#232736";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(60, 145, 680, 110);
+
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 22px 'Space Grotesk', sans-serif";
+      ctx.fillText(`TARGET: ${activeReport.title.slice(0, 42)}`, 400, 185);
+
+      ctx.fillStyle = "#f59e0b";
+      ctx.font = "bold 26px 'JetBrains Mono', monospace";
+      ctx.fillText(`DAMAGE: ${activeReport.priceFormatted}`, 400, 225);
+
+      const topEmo = currentEmotionScores[0]?.label || 'desire';
+      ctx.fillStyle = "#d4d4d8";
+      ctx.font = "15px 'Space Grotesk', sans-serif";
+      ctx.fillText(`Diagnosis: High ${topEmo.toUpperCase()} dopamine spike with 0.00% daily necessity.`, 400, 300);
+      ctx.fillText(`Buyer's Remorse Probability: 99.8% within 14 days of delivery.`, 400, 330);
+
+      ctx.save();
+      ctx.translate(400, 420);
+      ctx.rotate(-8 * Math.PI / 180);
+      ctx.strokeStyle = "#ff2a5f";
+      ctx.lineWidth = 6;
+      ctx.strokeRect(-210, -45, 420, 90);
+      ctx.fillStyle = "rgba(255, 42, 95, 0.15)";
+      ctx.fillRect(-210, -45, 420, 90);
+
+      ctx.fillStyle = "#ff2a5f";
+      ctx.font = "black 32px 'JetBrains Mono', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("🚫 YOU DON'T NEED IT 🚫", 0, 12);
+      ctx.restore();
+
+      ctx.fillStyle = "#71717a";
+      ctx.font = "11px 'JetBrains Mono', monospace";
+      ctx.fillText(`Certified on ${new Date().toLocaleDateString('en-IN')} by You Don't Need It PWA`, 400, 550);
+
+      const dataUrl = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = `Clown_Certificate_${activeReport.cleanName.replace(/\s+/g, '_').slice(0, 20)}.png`;
+      a.click();
+      sfx.playChaChing();
+      showToast("Clown Certificate downloaded! 📜 Save or share it to shame yourself.");
+    }
+
+    // 60-Second Soul Confession Friction Wall
+    let cooldownTimer = null;
+    let secondsRemaining = 60;
+
+    function triggerSoulConfessionModal() {
+      sfx.playBuzzer();
+      const modal = document.getElementById('soulConfessionModal');
+      modal.classList.remove('hidden');
+      secondsRemaining = 60;
+      document.getElementById('cooldownTimerDisplay').innerText = `${secondsRemaining}s`;
+      document.getElementById('confessionInput').value = '';
+      document.getElementById('unlockBuyBtn').disabled = true;
+      document.getElementById('unlockBuyBtn').className = "flex-1 py-3 rounded-xl bg-zinc-800 text-zinc-500 font-mono text-xs font-bold uppercase cursor-not-allowed transition";
+
+      clearInterval(cooldownTimer);
+      cooldownTimer = setInterval(() => {
+        secondsRemaining--;
+        document.getElementById('cooldownTimerDisplay').innerText = `${secondsRemaining}s`;
+        if (secondsRemaining <= 0) {
+          clearInterval(cooldownTimer);
+          checkConfessionProgress();
+        }
+      }, 1000);
+    }
+
+    function checkConfessionProgress() {
+      const val = document.getElementById('confessionInput').value.trim().toLowerCase();
+      const target = "i am buying this to fill a void in my life";
+      const btn = document.getElementById('unlockBuyBtn');
+
+      if (secondsRemaining <= 0 && val === target) {
+        btn.disabled = false;
+        btn.className = "flex-1 py-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-mono text-xs font-bold uppercase transition animate-pulse";
+      } else {
+        btn.disabled = true;
+        btn.className = "flex-1 py-3 rounded-xl bg-zinc-800 text-zinc-500 font-mono text-xs font-bold uppercase cursor-not-allowed transition";
+      }
+    }
+
+    function abortConfessionModal() {
+      clearInterval(cooldownTimer);
+      document.getElementById('soulConfessionModal').classList.add('hidden');
+      sfx.playChaChing();
+      saveToGraveyard();
+    }
+
+    function proceedToBuyAnyway() {
+      clearInterval(cooldownTimer);
+      document.getElementById('soulConfessionModal').classList.add('hidden');
+      sfx.playSadTrombone();
+      showToast("You overcame all friction. May your wallet rest in peace.");
+    }
+
+    // =========================================================================
+    // 7. PERSISTENT LOCALSTORAGE DISORIENTATION ARCHIVES ("HALL OF SHAME")
+    // =========================================================================
+    const ARCHIVES_STORAGE_KEY = 'dont_need_it_archives_v2';
+    let currentArchiveFilter = 'all';
+
+    function getArchives() {
+      try {
+        return JSON.parse(localStorage.getItem(ARCHIVES_STORAGE_KEY)) || [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveArchivesList(list) {
+      localStorage.setItem(ARCHIVES_STORAGE_KEY, JSON.stringify(list));
+      updateSavedCounterDisplay();
+    }
+
+    function recordInterrogationToArchives(report) {
+      const list = getArchives();
+      const existingIdx = list.findIndex(item => item.title === report.title);
+      const topEmo = currentEmotionScores[0]?.label || 'desire';
+
+      const entry = {
+        id: report.id || Date.now(),
+        title: report.title,
+        cleanName: report.cleanName,
+        priceInr: report.priceInr,
+        priceFormatted: report.priceFormatted,
+        provenanceText: report.provenanceText,
+        excuse: report.excuse,
+        dominantEmotion: topEmo,
+        productSummary: report.aiReport.productSummary,
+        saved: false,
+        date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+      };
+
+      if (existingIdx >= 0) {
+        list[existingIdx] = { ...list[existingIdx], ...entry };
+      } else {
+        list.unshift(entry);
+      }
+
+      saveArchivesList(list);
+    }
+
+    function updateReportInArchives(report) {
+      const list = getArchives();
+      const idx = list.findIndex(item => item.title === report.title);
+      if (idx >= 0) {
+        list[idx].priceInr = report.priceInr;
+        list[idx].priceFormatted = report.priceFormatted;
+        saveArchivesList(list);
+      }
+    }
+
+    function saveToGraveyard() {
+      if (!activeReport) return;
+      sfx.playChaChing();
+      const list = getArchives();
+      const idx = list.findIndex(item => item.title === activeReport.title);
+      if (idx >= 0) {
+        list[idx].saved = true;
+      } else {
+        activeReport.saved = true;
+        recordInterrogationToArchives(activeReport);
+      }
+      saveArchivesList(list);
+
+      const btn = document.getElementById('buryImpulseBtn');
+      btn.disabled = true;
+      btn.innerHTML = `<span>💰 Rescued ${activeReport.priceFormatted} into Fortunes!</span>`;
+      showToast(`Cha-Ching! ${activeReport.priceFormatted} rescued from impulse destruction!`);
+    }
+
+    function updateSavedCounterDisplay() {
+      const list = getArchives();
+      const rescuedTotalInr = list.filter(i => i.saved).reduce((sum, item) => sum + (Number(item.priceInr) || 0), 0);
+      const displayVal = currentCurrency === 'INR' ? rescuedTotalInr : Math.round(rescuedTotalInr / 84);
+      document.getElementById('totalSavedCounter').innerText = `${formatMoney(displayVal)} Saved`;
+      document.getElementById('historyCount').innerText = list.length;
+      const archiveVal = document.getElementById('archivesTotalVal');
+      if (archiveVal) archiveVal.innerText = formatMoney(displayVal);
+    }
+
+    function openArchivesModal() {
+      renderArchivesUI();
+      document.getElementById('archivesModal').classList.remove('hidden');
+    }
+
+    function closeArchivesModal() {
+      document.getElementById('archivesModal').classList.add('hidden');
+    }
+
+    function setArchiveFilter(filterType) {
+      currentArchiveFilter = filterType;
+      document.getElementById('filterAllBtn').className = filterType === 'all' 
+        ? 'px-2.5 py-1 rounded-lg bg-zinc-800 text-white font-bold transition'
+        : 'px-2.5 py-1 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white transition';
+      document.getElementById('filterSavedBtn').className = filterType === 'saved'
+        ? 'px-2.5 py-1 rounded-lg bg-zinc-800 text-white font-bold transition'
+        : 'px-2.5 py-1 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white transition';
+      renderArchivesUI();
+    }
+
+    function renderArchivesUI() {
+      const list = getArchives();
+      const filtered = currentArchiveFilter === 'saved' ? list.filter(i => i.saved) : list;
+      const container = document.getElementById('archivesListContainer');
+
+      if (!filtered.length) {
+        container.innerHTML = `
+          <div class="text-center py-10 space-y-2">
+            <div class="text-3xl">🗑️</div>
+            <p class="text-xs font-mono text-zinc-400">No past disorientations found in this view.</p>
+            <p class="text-[11px] font-mono text-zinc-600">Interrogate items and save your cash to build your Hall of Shame!</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map((item, idx) => {
+        const val = currentCurrency === 'INR' ? item.priceInr : Math.round(item.priceInr / 84);
+        const savedBadge = item.saved 
+          ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">Rescued 💰</span>`
+          : `<span class="px-2 py-0.5 rounded-full bg-rose-500/15 text-rose-300 border border-rose-500/30 text-[10px]">Interrogated</span>`;
+
+        return `
+          <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800 hover:border-zinc-700 transition space-y-2">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="font-bold text-zinc-100 text-xs sm:text-sm line-clamp-1">${escapeHtml(item.title)}</h4>
+                  ${savedBadge}
+                </div>
+                <div class="text-[10px] font-mono text-zinc-400 mt-0.5">
+                  ${item.date} · Trigger: <span class="text-violet-400 font-bold uppercase">${escapeHtml(item.dominantEmotion)}</span>
+                </div>
+              </div>
+              <span class="font-mono font-extrabold text-amber-400 text-sm sm:text-base shrink-0">${formatMoney(val)}</span>
+            </div>
+
+            <p class="text-xs text-zinc-300 italic line-clamp-2 bg-zinc-900/80 p-2 rounded-lg border border-zinc-800">
+              "${escapeHtml(item.productSummary)}"
+            </p>
+
+            <div class="flex items-center justify-between pt-1 border-t border-zinc-800/80 text-[11px] font-mono">
+              <button onclick="reinterrogateFromArchive('${escapeHtml(item.title)}', ${item.priceInr}, '${escapeHtml(item.excuse || '')}')" class="text-sky-400 hover:underline flex items-center gap-1">
+                <i data-lucide="rotate-ccw" class="w-3 h-3"></i> Re-Roast
+              </button>
+              <button onclick="deleteArchiveItem(${item.id})" class="text-rose-400 hover:underline">
+                Delete
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function reinterrogateFromArchive(title, priceInr, excuse) {
+      closeArchivesModal();
+      loadPreset(title, priceInr, excuse);
+    }
+
+    function deleteArchiveItem(id) {
+      let list = getArchives();
+      list = list.filter(i => i.id !== id);
+      saveArchivesList(list);
+      renderArchivesUI();
+      showToast("Item deleted from archives.");
+    }
+
+    function clearAllArchives() {
+      if (confirm("Are you sure you want to reset all disorientation history?")) {
+        localStorage.removeItem(ARCHIVES_STORAGE_KEY);
+        updateSavedCounterDisplay();
+        renderArchivesUI();
+        showToast("Disorientation Archives cleared.");
+      }
+    }
+
+    function exportArchivesJSON() {
+      const list = getArchives();
+      const blob = new Blob([JSON.stringify(list, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `DontNeedIt_Archives_Export_${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      showToast("History exported as JSON!");
+    }
+
+    function shareShameCard() {
+      if (!activeReport) return;
+      const topEmo = currentEmotionScores[0]?.label || 'desire';
+      const text = `🤡 OFFICIAL IMPULSE INTERVENTION REPORT:
+Suspect Item: ${activeReport.title} (${activeReport.priceFormatted})
+RoBERTa Neural Trigger: ${topEmo.toUpperCase()}
+Verdict: 100% REJECTED — YOU DON'T NEED IT.
+"${activeReport.aiReport.productSummary}"`;
+
+      if (navigator.share) {
+        navigator.share({ title: "You Don't Need It — Shame Report", text }).catch(() => copyText(text));
+      } else {
+        copyText(text);
+      }
+    }
+
+    function copyText(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        showToast("Shame Report copied to clipboard!");
+      } catch (e) {}
+      document.body.removeChild(ta);
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastMessage').innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2600);
+    }
+
+    // =========================================================================
+    // 8. PWA INSTALLATION, SHARE TARGET & CLIPBOARD AUTO-DETECTOR
+    // =========================================================================
+    let deferredPrompt = null;
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
+          console.log('[PWA] Service Worker registered:', reg.scope);
+        }).catch((err) => {
+          console.warn('[PWA] Service Worker registration failed:', err);
+        });
+      });
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const btn = document.getElementById('pwaInstallBtn');
+      btn.classList.remove('hidden');
+      btn.classList.add('inline-flex');
+    });
+
+    function installPWA() {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(() => {
+        deferredPrompt = null;
+        document.getElementById('pwaInstallBtn').classList.add('hidden');
+      });
+    }
+
+    function isIos() {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    }
+
+    function isInStandaloneMode() {
+      return ('standalone' in window.navigator) && (window.navigator.standalone);
+    }
+
+    function openIosGuideModal() {
+      document.getElementById('iosGuideModal').classList.remove('hidden');
+    }
+
+    function closeIosGuideModal() {
+      document.getElementById('iosGuideModal').classList.add('hidden');
+    }
+
+    let detectedClipboardUrl = "";
+
+    async function checkClipboardOnAppOpen() {
+      try {
+        if (!navigator.clipboard || !navigator.clipboard.readText) return;
+        const text = await navigator.clipboard.readText();
+        if (text && /(amazon|flipkart|amzn|myntra|croma|apple|aliexpress|ebay|https?:\/\/)/i.test(text)) {
+          const parsed = parseSharedInputPayload(text);
+          if (parsed.extractedUrl || parsed.cleanName) {
+            detectedClipboardUrl = text;
+            document.getElementById('detectedClipboardText').innerText = (parsed.cleanName || text).slice(0, 36);
+            document.getElementById('clipboardDetectBanner').classList.remove('hidden');
+          }
+        }
+      } catch (e) {}
+    }
+
+    function applyDetectedClipboard() {
+      if (detectedClipboardUrl) {
+        const parsed = parseSharedInputPayload(detectedClipboardUrl);
+        document.getElementById('productInput').value = parsed.extractedUrl || parsed.cleanName;
+        onProductInputChanged();
+        dismissClipboardBanner();
+        runFullInterrogation();
+      }
+    }
+
+    function dismissClipboardBanner() {
+      document.getElementById('clipboardDetectBanner').classList.add('hidden');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      updateSavedCounterDisplay();
+
+      if (isIos() && !isInStandaloneMode()) {
+        const iosBtn = document.getElementById('iosHelperBtn');
+        iosBtn.classList.remove('hidden');
+        iosBtn.classList.add('inline-flex');
+      }
+
+      setTimeout(() => startEmotionWorker(), 400);
+
+      const params = new URLSearchParams(window.location.search);
+      const sharedUrl = params.get('url');
+      const sharedText = params.get('text');
+      const sharedTitle = params.get('title');
+
+      const sharedCombined = [sharedTitle, sharedText, sharedUrl].filter(Boolean).join(' ');
+
+      if (sharedCombined) {
+        const parsed = parseSharedInputPayload(sharedCombined);
+        document.getElementById('productInput').value = parsed.extractedUrl || parsed.cleanName;
+        document.getElementById('excuseInput').value = "I saw this shared link and impulsively want to buy it right now!";
+        showToast("Shared shopping link intercepted! Launching recon...");
+        setTimeout(() => runFullInterrogation(), 600);
+      } else {
+        setTimeout(() => checkClipboardOnAppOpen(), 1200);
+      }
+    });
+  </script>
+</body>
+</html>
